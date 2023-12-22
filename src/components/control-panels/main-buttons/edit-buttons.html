@@ -1,0 +1,87 @@
+<link rel="import"
+      href="../../../bower_components/polymer/polymer.html">
+<link rel="import"
+      href="../../../bower_components/paper-fab/paper-fab.html">
+<link rel="import"
+      href="../../../bower_components/core-icons/core-icons.html">
+<link rel="import"
+      href="../../../bower_components/core-icons/image-icons.html">
+<link rel="import"
+      href="../../custom-icons.html">
+<link rel="import"
+      href="color-select.html">
+<link rel="import"
+      href="line-weight-select.html">
+<polymer-element name="edit-buttons"
+                 attributes="draw
+                             view
+                             canvas
+                             canvasContext
+                             objects
+                             library
+                             inputMode">
+  <template>
+    <paper-fab id="obj-edit"
+               title="Object Select Tool"
+               style="background-color: {{inputMode == 'obj-edit' ? '#a88' : '#866'}}; color: {{inputMode == 'obj-edit' ? '#5f5' : 'red'}};"
+               icon="misc:pointer"
+               on-tap="{{setInputMode}}"
+               mini>
+    </paper-fab>
+    <paper-fab id="pan"
+               title="Pan View Tool"
+               style="background-color: {{inputMode == 'pan' ? '#a88' : '#866'}}; color: {{inputMode == 'pan' ? '#5f5' : 'white'}}"
+               icon="open-with"
+               on-tap="{{setInputMode}}"
+               mini>
+    </paper-fab>
+    <paper-fab id="draw"
+               title="Draw Tool"
+               style="background-color: {{inputMode == 'draw' ? '#a88' : '#866'}}; color: {{inputMode == 'draw' ? '#5f5' : 'white'}}"
+               icon="create"
+               on-tap="{{setInputMode}}"
+               mini>
+    </paper-fab>
+    <paper-fab id="erase"
+               title="Erase Tool"
+               style="background-color: {{inputMode == 'erase' ? '#a88' : '#866'}}; color: {{inputMode == 'erase' ? '#5f5' : 'white'}}"
+               icon="misc:erase"
+               on-tap="{{setInputMode}}"
+               mini>
+    </paper-fab>
+    <line-weight-select id="line-width"
+                        weight="{{draw.weight}}"
+                        inputMode="{{inputMode}}">
+    </line-weight-select>
+    <color-select id="color"
+                  view="{{view}}"
+                  selectedColor="{{draw.color}}"
+                  inputMode="{{inputMode}}">
+    </color-select>
+    <paper-fab id="capture"
+               title="Capture Current Annotations"
+               style="background-color: #866; color: white;"
+               icon="image:camera-alt"
+               on-tap="{{captureAnnotations}}"
+               mini>
+    </paper-fab>
+    <style>
+      :host{
+        position: absolute;
+        top: 0;
+        right: 8px;
+      }
+      #obj-edit, #pan, #draw, #erase{
+        background-color: #866;
+      }
+      paper-fab, line-weight-select, color-select{
+        margin-top: 8px;
+        margin-right: 3px;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        /*color: white;*/
+      }
+    </style>
+  </template>
+  <script src="edit-buttons.js">
+  </script>
+</polymer-element>

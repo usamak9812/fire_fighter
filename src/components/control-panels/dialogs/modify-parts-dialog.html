@@ -1,0 +1,92 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="/bower_components/core-icons/core-icons.html">
+<link rel="import"
+      href="/bower_components/core-icons/notification-icons.html">
+<link rel="import"
+      href="/bower_components/paper-shadow/paper-shadow.html">
+<link rel="import"
+      href="/bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import"
+      href="dialog-base.html">
+<link rel="import"
+      href="/bower_components/paper-dialog/paper-dialog-transition.html">
+<polymer-element name="modify-parts-dialog"
+                 extends="dialog-base"
+                 attributes="selected
+                             view
+                             objects"
+                 transition="paper-dialog-transition-top"
+                 vertical layout>
+  <template>
+    <paper-shadow z="3" fit></paper-shadow>
+    <div vertical layout>
+      <span id="title">
+        Parts Breakout
+      </span>
+      <div style="height: 16px;"></div>
+      <div id="scroll">
+        <div vertical layout>
+          <template repeat="{{part, i in selected.object.parts}}">
+            <div horizontal layout center>
+              <paper-checkbox id="{{i}}_{{part.name}}"
+                              class="spaced"
+                              on-tap="{{modifyList}}">
+              </paper-checkbox>
+              <div class="image" style="background-image: url({{getPartImageURL(part.name)}});"></div>
+              <div class="spaced">{{parsed(part.name)}}</div>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div style="height: 16px;"></div>
+      <div horizontal layout>
+        <paper-button on-tap="{{cancel}}"
+                      flex>
+          Cancel
+        </paper-button>
+        <paper-button on-tap="{{detach}}"
+                      disabled="{{list.length == 0}}">
+          Detach Selected Parts
+        </paper-button>
+      </div>
+    </div>
+    <style>
+      :host{
+        padding: 16px;
+      }
+      paper-shadow{
+        pointer-events: none;
+      }
+      paper-button{
+        background: #3f51b5;
+        color: white;
+      }
+      .spaced{
+        margin: 16px;
+      }
+      .image{
+        height: 50px;
+        width: 50px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      #title{
+        display: block;
+        line-height: 38px;
+        font-weight: 300;
+        font-size: 24px;
+      }
+      #scroll{
+        padding: 8px;
+        width: 400px;
+        height: 500px;
+        border: 1px solid gray;
+        overflow-x: hidden;
+      }
+    </style>
+  </template>
+  <script src="modify-parts-dialog.js"></script>
+</polymer-element>

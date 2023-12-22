@@ -1,0 +1,262 @@
+<link rel="import"
+      href="types/fire-object.html">
+<link rel="import"
+      href="types/vehicle-object.html">
+<link rel="import"
+      href="types/aircraft-object.html">
+<link rel="import"
+      href="types/ARFF-truck-object.html">
+<link rel="import"
+      href="types/HRET-truck-object.html">
+<link rel="import"
+      href="types/basic-plow-truck-object.html">
+<link rel="import"
+      href="types/broom-plow-truck-object.html">
+<link rel="import"
+      href="types/label-object.html">
+<link rel="import"
+      href="types/evacuee-object.html">
+<link rel="import"
+      href="types/simple-object.html">
+<link rel="import"
+      href="types/interactive-object.html">
+<link rel="import"
+      href="types/structure-object.html">
+<link rel="import"
+      href="types/image-object.html">
+<link rel="import"
+      href="types/warn-zone.html">
+<link rel="import"
+      href="types/clock-position.html">
+<link rel="import"
+      href="types/fuel-leak.html">
+<link rel="import"
+      href="types/mask-object.html">
+<link rel="import"
+      href="types/front-object.html">
+<polymer-element name="object-layer"
+                 attributes="objects
+                             index
+                             wind
+                             view
+                             cursor
+                             warn
+                             leak
+                             inputMode
+                             interactMode
+                             selected
+                             driveMode"
+                 fit>
+  <template>
+    <template repeat="{{object in objects}}">
+      <template if="{{object.layer == index}}">
+        <template if="{{object.type == 'fire'}}">
+          <fire-object objectData="{{object}}"
+                       view="{{view}}"
+                       wind="{{wind}}"
+                       selected="{{selected}}"
+                       inputMode="{{inputMode}}"
+                       interactMode="{{interactMode}}">
+          </fire-object>
+        </template>
+        <template if="{{object.type == 'vehicle'}}">
+          <template if="{{object.subtype == 'ARFF' || object.subtype == 'RIV'}}">
+            <ARFF-truck-object objectData="{{object}}"
+                               view="{{view}}"
+                               wind="{{wind}}"
+                               cursor="{{cursor}}"
+                               selected="{{selected}}"
+                               inputMode="{{inputMode}}"
+                               driveMode="{{driveMode}}"
+                               interactMode="{{interactMode}}">
+            </ARFF-truck-object>
+          </template>
+          <template if="{{object.subtype == 'HRET'}}">
+            <HRET-truck-object objectData="{{object}}"
+                               view="{{view}}"
+                               wind="{{wind}}"
+                               cursor="{{cursor}}"
+                               selected="{{selected}}"
+                               inputMode="{{inputMode}}"
+                               driveMode="{{driveMode}}"
+                               interactMode="{{interactMode}}">
+            </HRET-truck-object>
+          </template>
+          <template if="{{object.subtype == 'basic-plow'}}">
+            <basic-plow-truck-object objectData="{{object}}"
+                               view="{{view}}"
+                               wind="{{wind}}"
+                               cursor="{{cursor}}"
+                               selected="{{selected}}"
+                               inputMode="{{inputMode}}"
+                               driveMode="{{driveMode}}"
+                               interactMode="{{interactMode}}">
+            </basic-plow-truck-object>
+          </template>
+          <template if="{{object.subtype == 'broom-plow'}}">
+            <broom-plow-truck-object objectData="{{object}}"
+                                     view="{{view}}"
+                                     wind="{{wind}}"
+                                     cursor="{{cursor}}"
+                                     selected="{{selected}}"
+                                     inputMode="{{inputMode}}"
+                                     driveMode="{{driveMode}}"
+                                     interactMode="{{interactMode}}">
+            </broom-plow-truck-object>
+          </template>
+          <template if="{{object.subtype == 'basic'}}">
+            <vehicle-object objectData="{{object}}"
+                            view="{{view}}"
+                            wind="{{wind}}"
+                            cursor="{{cursor}}"
+                            selected="{{selected}}"
+                            inputMode="{{inputMode}}"
+                            driveMode="{{driveMode}}"
+                            interactMode="{{interactMode}}">
+            </vehicle-object>
+          </template>
+        </template>
+        <template if="{{object.type == 'aircraft'}}">
+          <aircraft-object objectData="{{object}}"
+                           view="{{view}}"
+                           wind="{{wind}}"
+                           cursor="{{cursor}}"
+                           selected="{{selected}}"
+                           inputMode="{{inputMode}}"
+                           interactMode="{{interactMode}}">
+          </aircraft-object>
+        </template>
+        <template if="{{object.type == 'label'}}">
+          <label-object objectData="{{object}}"
+                        view="{{view}}"
+                        cursor="{{cursor}}"
+                        selected="{{selected}}"
+                        inputMode="{{inputMode}}"
+                        interactMode="{{interactMode}}">
+          </label-object>
+        </template>
+        <template if="{{object.type == 'evacuees'}}">
+          <evacuee-object objectData="{{object}}"
+                          view="{{view}}"
+                          cursor="{{cursor}}"
+                          selected="{{selected}}"
+                          inputMode="{{inputMode}}"
+                          interactMode="{{interactMode}}">
+          </evacuee-object>
+        </template>
+        <template if="{{object.type == 'simple'}}">
+          <simple-object objectData="{{object}}"
+                         view="{{view}}"
+                         cursor="{{cursor}}"
+                         selected="{{selected}}"
+                         inputMode="{{inputMode}}"
+                         interactMode="{{interactMode}}">
+          </simple-object>
+        </template>
+        <template if="{{object.type == 'interactive'}}">
+          <interactive-object objectData="{{object}}"
+                              view="{{view}}"
+                              cursor="{{cursor}}"
+                              selected="{{selected}}"
+                              inputMode="{{inputMode}}"
+                              interactMode="{{interactMode}}">
+          </interactive-object>
+        </template>
+        <template if="{{object.type == 'structure'}}">
+          <structure-object objectData="{{object}}"
+                            view="{{view}}"
+                            cursor="{{cursor}}"
+                            selected="{{selected}}"
+                            inputMode="{{inputMode}}"
+                            interactMode="{{interactMode}}">
+          </structure-object>
+        </template>
+        <template if="{{object.type == 'warn'}}">
+          <warn-zone objectData="{{object}}"
+                     warnVisible="{{warn.visible}}"
+                     warnExists="{{warn.exists}}"
+                     view="{{view}}"
+                     cursor="{{cursor}}"
+                     selected="{{selected}}"
+                     inputMode="{{inputMode}}"
+                     interactMode="{{interactMode}}">
+          </warn-zone>
+        </template>
+        <template if="{{object.type == 'clock'}}">
+          <clock-position objectData="{{object}}"
+                          view="{{view}}"
+                          cursor="{{cursor}}"
+                          selected="{{selected}}"
+                          inputMode="{{inputMode}}"
+                          interactMode="{{interactMode}}">
+          </clock-position>
+        </template>
+        <template if="{{object.type == 'leak'}}">
+          <fuel-leak objectData="{{object}}"
+                     leakVisible="{{leak.visible}}"
+                     leakExists="{{leak.exists}}"
+                     view="{{view}}"
+                     cursor="{{cursor}}"
+                     selected="{{selected}}"
+                     inputMode="{{inputMode}}"
+                     interactMode="{{interactMode}}">
+          </fuel-leak>
+        </template>
+        <template if="{{object.type == 'image'}}">
+          <image-object objectData="{{object}}"
+                        view="{{view}}"
+                        cursor="{{cursor}}"
+                        selected="{{selected}}"
+                        inputMode="{{inputMode}}"
+                        interactMode="{{interactMode}}">
+          </image-object>
+        </template>
+        <template if="{{object.type == 'mask'}}">
+          <mask-object objectData="{{object}}"
+                       view="{{view}}"
+                       cursor="{{cursor}}"
+                       selected="{{selected}}"
+                       inputMode="{{inputMode}}"
+                       interactMode="{{interactMode}}">
+          </mask-object>
+        </template>
+        <template if="{{object.type == 'front'}}">
+          <front-object objectData="{{object}}"
+                        view="{{view}}"
+                        cursor="{{cursor}}"
+                        selected="{{selected}}"
+                        inputMode="{{inputMode}}"
+                        interactMode="{{interactMode}}">
+          </front-object>
+        </template>
+      </template>
+    </template>
+    <template repeat="{{p in particles}}">
+      <div class="particle"
+           style="transform-origin: 50% {{p.life * 50}}%;
+                  transform: translate({{p.position.x}}px, {{p.position.y - (p.life * 16)}}px)
+                             rotate(-90deg)
+                             rotate({{p.vector.angle}}rad)
+                             translate(0, {{calcArc(p.vector.magnitude, p.life, p.wide)}}px)
+                             rotate({{p.rotation}}deg)
+                             scale({{calcParticleScale(p.life, scale, p.wide, p.vector.magnitude, p.range)}});
+                  background-position: {{-32 * p.frame}}px 0;
+                  background-image: url(/assets/anim/agent/anim_{{p.type}}.png);">
+      </div>
+    </template>
+    <style>
+      .particle{
+        pointer-events: none;
+        position: absolute;
+        left: -16px;
+        width: 32px;
+        height: 32px;
+        transform-origin: 0 50%;
+        background-size: 3840px 32px;
+        background-repeat: no-repeat;
+      }
+    </style>
+  </template>
+  <script src="object-layer.js">
+  </script>
+</polymer-element>

@@ -1,0 +1,6 @@
+- install mingw w/ gcc build tools
+- open command prompt, cd to this folder
+- run command >> gcc launch.c -s -mwindows -o launch.exe
+- run command >> icon /A launch.exe ../icon_128.ico
+- generate full/trial exe at protect-software website
+- replace full/trial exe in each of the launcher/full and launcher/trial folders

@@ -1,0 +1,1 @@
+makeCodeJoiningOn('BR', '&#160;<br>');

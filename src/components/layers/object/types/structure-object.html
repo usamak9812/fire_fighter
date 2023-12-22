@@ -1,0 +1,40 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="base-object.html">
+<polymer-element name="structure-object"
+                 extends="base-object"
+                 attributes="objectData
+                             view"
+                 layout horizontal center center-justified>
+  <template>
+    <div horizontal layout center center-justified fit>
+      <div id="label"
+           draggable="false"
+           on-click="{{select}}">
+      </div>
+    </div>
+    <style>
+      :host{
+        top: -256px;
+        left: -256px;
+        width: 512px;
+        height: 512px;
+      }
+      #label{
+        -webkit-transform: rotate({{objectData.rotation}}rad)
+                           scale({{(objectData.scale * 3) + 0.25}});
+        overflow: hidden;
+        border-radius: {{objectData.subtype == "rectangle" ? "2px" : "100%"}};
+        /*border: 1px solid hsl({{objectData.hsl.h}}, {{objectData.hsl.s}}%, {{objectData.hsl.l * 0.5}}%);*/
+        background-color: hsl({{objectData.hsl.h}}, {{objectData.hsl.s}}%, {{objectData.hsl.l}}%);
+        width: {{objectData.size.width}}px;
+        height: {{objectData.size.height}}px;
+        top: {{-objectData.size.width * 0.5}}px;
+        left: {{-objectData.size.height * 0.5}}px;
+        pointer-events: {{selected.object!=objectData && !interactMode ? 'all' : 'none'}};
+      }
+    </style>
+  </template>
+  <script src="structure-object.js"></script>
+</polymer-element>

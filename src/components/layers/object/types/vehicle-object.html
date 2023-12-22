@@ -1,0 +1,45 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="/bower_components/core-input/core-input.html">
+<link rel="import"
+      href="base-object.html">
+<link rel="import"
+      href="spray-turret.html">
+<polymer-element name="vehicle-object"
+                 extends="base-object"
+                 attributes="cursor
+                             view
+                             driveMode">
+  <template>
+    <div id="container"
+         horizontal layout center center-justified fit
+         style="transform: rotate(90deg);">
+      <div id="img-container">
+        <img id="img"
+             src="{{objectData.graphic}}"
+             draggable="false"
+             style=""
+             on-click="{{select}}"
+             on-track="{{startDrive}}">
+        <content></content>
+      </div>
+    </div>
+    <style>
+      :host{
+        top: -128px;
+        left: -128px;
+        width: 256px;
+        height: 256px;
+      }
+      #img-container{
+        transform-origin: 50% {{objectData.centerOfRotation}}%;
+        transform: translateY({{50 - objectData.centerOfRotation}}%)
+                   rotate({{objectData.rotation}}rad);
+        pointer-events: {{{"none":selected.object==objectData, "all":selected.object!=objectData}|tokenList}};
+      }
+    </style>
+  </template>
+  <script src="vehicle-object.js">
+  </script>
+</polymer-element>

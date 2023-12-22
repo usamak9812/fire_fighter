@@ -1,0 +1,1 @@
+makeCodeJoiningOn('divs', '</div><div>', '<div>', '<\/div>');

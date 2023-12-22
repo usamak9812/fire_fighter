@@ -1,0 +1,57 @@
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><html><head><link href="core-transition-pages.html" rel="import">
+
+
+</head><body><core-style id="list-cascade">
+  polyfill-next-selector { content: ':host.list-cascade &gt; * [list-cascade]'; }
+  :host(.list-cascade) ::content &gt; * [list-cascade] * {
+    -webkit-transition: -webkit-transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity {{g.transitions.cascade || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity {{g.transitions.cascade || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  polyfill-next-selector { content: ':host &gt; .core-selected [list-cascade] *'; }
+  ::content &gt; .core-selected [list-cascade] * {
+    -webkit-transform: none;
+    transform: none;
+  }
+
+  polyfill-next-selector { content: ':host &gt; *:not(.core-selected) [list-cascade] *'; }
+  ::content &gt; *:not(.core-selected) [list-cascade] * {
+    -webkit-transform: translateY(200%);
+    transform: translateY(200%);
+    opacity: 0.2;
+  }
+
+  polyfill-next-selector { content: ':host &gt; .core-selected [list-cascade] *:nth-child(2)'; }
+  ::content &gt; .core-selected [list-cascade] *:nth-child(2) {
+    -webkit-transition-delay: 0.1s;
+    transition-delay: 0.1s;
+  }
+
+  polyfill-next-selector { content: ':host &gt; .core-selected [list-cascade] *:nth-child(3)'; }
+  ::content &gt; .core-selected [list-cascade] *:nth-child(3) {
+    -webkit-transition-delay: 0.2s;
+    transition-delay: 0.2s;
+  }
+
+  polyfill-next-selector { content: ':host &gt; .core-selected [list-cascade] *:nth-child(4)'; }
+  ::content &gt; .core-selected [list-cascade] *:nth-child(4) {
+    -webkit-transition-delay: 0.3s;
+    transition-delay: 0.3s;
+  }
+  
+  polyfill-next-selector { content: ':host &gt; .core-selected [list-cascade] *:nth-child(5)'; }
+  ::content &gt; .core-selected [list-cascade] *:nth-child(5) {
+    -webkit-transition-delay: 0.4s;
+    transition-delay: 0.4s;
+  }
+</core-style>
+
+<core-transition-pages id="list-cascade" activeclass="list-cascade"></core-transition-pages>
+</body></html>

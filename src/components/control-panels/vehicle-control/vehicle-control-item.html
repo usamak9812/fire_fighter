@@ -1,0 +1,88 @@
+<link rel="import"
+      href="../../../bower_components/polymer/polymer.html">
+<link rel="import"
+      href="../../../bower_components/paper-shadow/paper-shadow.html">
+<link rel="import"
+      href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import"
+      href="../../../bower_components/core-icons/core-icons.html">
+<polymer-element name="vehicle-control-item"
+                 attributes="objectData
+                             objects
+                             selected
+                             inputMode"
+                 on-tap="{{select}}"
+                 layout vertical>
+  <template>
+    <paper-shadow id="shadow"
+                  animated
+                  fit>
+    </paper-shadow>
+    <div layout vertical>
+      <div layout horizontal>
+        <img id="thumb"
+             src="{{objectData.graphic}}">
+        <div layout vertical>
+          <paper-icon-button id="up"
+                             icon="expand-less"
+                             on-tap="{{move}}">
+          </paper-icon-button>
+          <paper-icon-button id="down"
+                             icon="expand-more"
+                             on-tap="{{move}}">
+          </paper-icon-button>
+        </div>
+      </div>
+      <input is="core-input"
+             id="name"
+             value="{{objectData.name}}">
+    </div>
+    <style>
+      :host{
+        position: relative;
+        border: 1px solid #575;
+        border-radius: 3px;
+        margin: 8px 0;
+        padding: 2px;
+        -webkit-user-select: none;
+        cursor: default;
+        color: #797;
+      }
+      paper-icon-button{
+        margin: 2px;
+        border: 1px solid #575;
+        border-radius: 50px;
+        color: #cdc;
+        background: #686;
+        fill: white;
+      }
+      paper-shadow{
+        pointer-events: none;
+      }
+      #thumb{
+        -webkit-transition: 0.25s;
+        display: inline-block;
+        margin: 2px;
+        border: 1px solid #575;
+        width: 86px;
+        height: 86px;
+      }
+      #name{
+        width: auto;
+        font-size: 16px;
+        margin: 2px;
+        padding: 4px;
+        color: #cdc;
+        vertical-align: top;
+        color: #cdc;
+        border: 1px solid #575;
+        cursor: {{{"default":selected.object!=objectData, "text":selected.object==objectData}|tokenList}};
+        text-align: center;
+      }
+      #name::shadow #input{
+        text-align: center;
+      }
+    </style>
+  </template>
+  <script src="vehicle-control-item.js"></script>
+</polymer-element>

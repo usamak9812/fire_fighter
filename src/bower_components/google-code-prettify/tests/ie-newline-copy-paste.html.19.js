@@ -1,0 +1,1 @@
+makeCodeJoiningOn('BR+LF', '&#160;<br>\n');

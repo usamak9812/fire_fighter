@@ -1,0 +1,113 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="fire-truck-object.html">
+<polymer-element name="HRET-truck-object"
+                 extends="fire-truck-object">
+  <template>
+    <shadow></shadow>
+    <div vertical layout center center-justified fit>
+      <div id="turret-pre">
+        <div id="turret-box">
+          <div id="turret-graphic"
+               style="background-image: url({{objectData.turret.graphic}});"
+               fit>
+            <!--<div id="spray-front"></div>-->
+          </div>
+        </div>
+        <div id="boom-box">
+          <div id="spike"
+               style="transform: translateY({{objectData.boom.pMode != 'agent_off' ? '-50px' : '0'}});">
+            <div id="puff"
+                 style="background-image: url(/assets/anim/agent/spike_{{objectData.boom.pMode}}.png);
+                        background-position: -{{currentFrame * 112}}px 0;">
+            </div>
+          </div>
+          <div id="boom"></div>
+        </div>
+        <div id="boom-sheath">
+        </div>
+      </div>
+    </div>
+    <style>
+      #puff{
+        transform: scale(2.5);
+        position: absolute;
+        top: -74px;
+        left: -52px;
+        width: 112px;
+        height: 64px;
+        background-repeat: no-repeat;
+        pointer-events: none;
+        background-size: 8512px 64px;
+      }
+      #spike{
+        transition: 0.125s linear;
+        position: absolute;
+        top: 20px;
+        left: 61px;
+        width: 3px;
+        height: 80px;
+        background-image: url(/assets/lib/vehicle/HRET_spike.svg);
+      }
+      #boom-box{
+        position: absolute;
+        transition: 1s;
+        top: -138px;
+        width: 80px;
+        height: 520px;
+        -webkit-transform: translateX({{objectData.boom.extended ? 696 : 280}}px)
+                           rotate(90deg);
+      }
+      #boom{
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-image: url(/assets/lib/vehicle/HRET_boom.svg);
+        background-size: 80px 520px;
+      }
+      #boom-sheath{
+        position: absolute;
+        top: -108px;
+        left: 247px;
+        width: 80px;
+        height: 460px;
+        background-image: url(/assets/lib/vehicle/HRET_boom_sheath.svg);
+        background-size: 80px 460px;
+        -webkit-transform: rotate(90deg);
+      }
+      #turret-pre{
+        transform: rotate({{objectData.rotation}}rad)
+                   scale(0.05);
+      }
+      #turret-box{
+        transition: 1s;
+        position: relative;
+        transform: translate({{objectData.turret.position.x * 20}}px, {{objectData.turret.position.y * 20}}px);
+        width: 240px;
+        height: 240px;
+      }
+      #turret-graphic{
+        transition: 0;
+        transform: rotate(90deg)
+                   rotate({{objectData.turret.angle.current}}rad);
+        background-size: 240px 240px;
+      }
+      #spray-front{
+        opacity: ;
+        position: relative;
+        top: 110px;
+        left: 104px;
+        transform-origin: 50% 0;
+        transform: scale(8, 48) rotate(180deg);
+        background-image: url(/assets/anim/agent/anim_{{objectData.turret.type}}_pre.png);
+        width: 32px;
+        height: 32px;
+        background-size: 32px 32px;
+      }
+    </style>
+  </template>
+  <script src="HRET-truck-object.js"></script>
+</polymer-element>

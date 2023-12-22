@@ -1,0 +1,22 @@
+{
+  "name": "dial-input",
+  "version": "1.0.1",
+  "homepage": "https://github.com/brycethorup/dial-input",
+  "description": "A polymer element that provides input based on an angle.",
+  "authors": [
+    "Bryce Thorup"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#master",
+    "platform": "Polymer/platform#master",
+    "paper-shadow": "Polymer/paper-shadow#master"
+  }
+}

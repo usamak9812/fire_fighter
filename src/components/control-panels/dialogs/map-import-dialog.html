@@ -1,0 +1,105 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="/bower_components/core-icons/core-icons.html">
+<link rel="import"
+      href="/bower_components/core-icons/notification-icons.html">
+<link rel="import"
+      href="/bower_components/core-ajax/core-ajax.html">
+<link rel="import"
+      href="/bower_components/paper-shadow/paper-shadow.html">
+<link rel="import"
+      href="/bower_components/paper-input/paper-input.html">
+<link rel="import"
+      href="/bower_components/paper-spinner/paper-spinner.html">
+<link rel="import"
+      href="dialog-base.html">
+<link rel="import"
+      href="/bower_components/paper-dialog/paper-dialog-transition.html">
+<polymer-element name="map-import-dialog"
+                 extends="dialog-base"
+                 attributes="view
+                             bgDialog"
+                 transition="paper-dialog-transition-top"
+                 vertical layout>
+  <template>
+    <core-ajax id="request"
+               handleAs="blob"
+               on-core-response="{{saveMap}}">
+    </core-ajax>
+    <paper-shadow z="3" fit></paper-shadow>
+    <div horizontal layout>
+      <iframe id="map"
+              src="map-import-dialog-sandbox.html">
+      </iframe>
+      <div vertical layout flex id="info-panel">
+        <span id="title">
+          Satellite Image Import
+        </span>
+        <paper-input label="New Map Name"
+                     value="{{name}}">
+        </paper-input>
+        <div style="height: 16px;"></div>
+        <div horizontal layout>
+          <div flex></div>
+          <paper-button on-tap="{{cancel}}">
+            Cancel
+          </paper-button>
+          <paper-button on-tap="{{getMapPosition}}">
+            import satellite image
+          </paper-button>
+        </div>
+      </div>
+    </div>
+    <div id="overlay" layout vertical center center-justified fit>
+      <div id="spinner-box">
+        <paper-spinner active></paper-spinner>
+      </div>
+    </div>
+    <style>
+      :host{
+        padding: 16px;
+        min-width: 1200px;
+        min-height: 640px;
+        border-radius: 3px;
+      }
+      paper-shadow{
+        pointer-events: none;
+      }
+      paper-button{
+        background: #3f51b5;
+        color: white;
+      }
+      #info-panel{
+        padding: 16px;
+      }
+      #map{
+        min-width: 640px;
+        min-height: 640px;
+        border: 0px solid black;
+      }
+      #title{
+        display: block;
+        line-height: 38px;
+        font-weight: 300;
+        font-size: 24px;
+      }
+      #overlay{
+        transition: 0.5s;
+        background-color: rgba(0, 0, 0, 0.7);
+        opacity: 0;
+        pointer-events: none;
+      }
+      #overlay.show{
+        opacity: 1;
+        pointer-events: all;
+      }
+      #spinner-box{
+        padding: 8px;
+        background-color: white;
+        border-radius: 50%;
+      }
+    </style>
+  </template>
+  <script src="map-import-dialog.js"></script>
+</polymer-element>

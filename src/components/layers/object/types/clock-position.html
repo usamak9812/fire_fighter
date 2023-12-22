@@ -1,0 +1,57 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="base-object.html">
+<polymer-element name="clock-position"
+                 extends="base-object"
+                 attributes="objectData
+                             interactMode
+                             view"
+                 layout horizontal center center-justified>
+  <template>
+    <!--<div id="image"-->
+    <!--     on-click="{{select}}"-->
+    <!--     on-touchStart="{{select}}"-->
+    <!--     draggable="false">-->
+    <!--</div>-->
+    <img id="clock"
+         src="/assets/img/clock_{{objectData.color}}.svg"
+         style="opacity:{{objectData.opacity}};">
+    <div id="selection-area"
+         on-click="{{select}}">
+    </div>
+    <style>
+      #selection-area{
+        display: {{interactMode ? "none" : "block"}};
+        position: absolute;
+        pointer-events: {{selected.object!=objectData && !interactMode ? 'all' : 'none'}};
+        background: red;
+        width: 140px;
+        height: 140px;
+        top: -70px;
+        left: -70px;
+        border-radius: 50%;
+        opacity: 0.2;
+      }
+      #clock{
+        transform: scale({{(objectData.scale / 2) + 0.1}})
+                   rotate({{objectData.rotation}}rad);
+        position: absolute;
+        width: 768px;
+        height: 768px;
+        top: -384px;
+        left: -384px;
+      }
+      /*#image{*/
+      /*  -webkit-transform: rotate({{objectData.rotation}}rad);*/
+      /*  pointer-events: {{{'none':selected.object==objectData,'all':selected.object!=objectData}|tokenList}};*/
+      /*  background-image: url({{objectData.graphic}});*/
+      /*  background-size: contiain;*/
+      /*  background-repeat: no-repeat;*/
+      /*  background-position: center;*/
+      /*}*/
+    </style>
+  </template>
+  <script src="warn-zone.js"></script>
+
+</polymer-element>

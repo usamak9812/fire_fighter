@@ -1,0 +1,317 @@
+<link rel="import"
+      href="../../../bower_components/polymer/polymer.html">
+<!--<link rel="import"-->
+<!--      href="../annotation/annotation-layer.html">-->
+<link rel="import"
+      href="/components/layers/grease-pen-layer/grease-pen-layer.html">
+<link rel="import"
+      href="../erase/erase-layer.html">
+<link rel="import"
+      href="../draw/draw-layer.html">
+<link rel="import"
+      href="../object/object-layer.html">
+<link rel="import"
+      href="../name/name-layer.html">
+<link rel="import"
+      href="../path/path-layer.html">
+<link rel="import"
+      href="../../../bower_components/paper-toast/paper-toast.html">
+<link rel="import"
+      href="../../../bower_components/paper-slider/paper-slider.html">
+<link rel="import"
+      href="../../../bower_components/paper-fab/paper-fab.html">
+<link rel="import"
+      href="../../../bower_components/core-icon/core-icon.html">
+<link rel="import"
+      href="../../../bower_components/core-icons/core-icons.html">
+<link rel="import"
+      href="../../../bower_components/core-icons/image-icons.html">
+<link rel="import"
+      href="../../edit-widget/edit-widget.html">
+<link rel="import"
+      href="../../input-binder/input-binder.html">
+<polymer-element name="layer-manager"
+                 attributes="settings
+                             isTrial
+                             wind
+                             view
+                             canvas
+                             root
+                             warn
+                             leak
+                             inputMode
+                             draw
+                             objects
+                             selected
+                             canvasContext
+                             driveMode
+                             cursor
+                             interactMode">
+  <template>
+    <input-binder cursor="{{cursor}}"
+                  view="{{view}}"
+                  root="{{root}}"
+                  target="{{}}">
+    </input-binder>
+    <div id="root"
+         style="background-color: {{view.background.color}};">
+      <div id="background"
+           style="background-image: url({{view.background.url}});
+                  image-rendering: -webkit-optimize-contrast;"
+           on-tap
+           fit>
+      </div>
+      <path-layer id="pl"
+                  objects="{{objects}}"
+                  view="{{view}}">
+      </path-layer>
+      <object-layer id="layer_0"
+                    objects="{{objects}}"
+                    index="0"
+                    wind="{{wind}}"
+                    view="{{view}}"
+                    cursor="{{cursor}}"
+                    selected="{{selected}}"
+                    inputMode="{{inputMode}}"
+                    driveMode="{{driveMode}}"
+                    interactMode="{{interactMode}}"
+                    warn="{{warn}}"
+                    leak="{{leak}}">
+      </object-layer>
+      <object-layer id="layer_1"
+                    objects="{{objects}}"
+                    index="1"
+                    wind="{{wind}}"
+                    view="{{view}}"
+                    cursor="{{cursor}}"
+                    selected="{{selected}}"
+                    inputMode="{{inputMode}}"
+                    driveMode="{{driveMode}}"
+                    interactMode="{{interactMode}}"
+                    warn="{{warn}}"
+                    leak="{{leak}}">>
+      </object-layer>
+      <object-layer id="layer_2"
+                    objects="{{objects}}"
+                    index="2"
+                    wind="{{wind}}"
+                    view="{{view}}"
+                    cursor="{{cursor}}"
+                    selected="{{selected}}"
+                    inputMode="{{inputMode}}"
+                    driveMode="{{driveMode}}"
+                    interactMode="{{interactMode}}"
+                    warn="{{warn}}"
+                    leak="{{leak}}">>
+      </object-layer>
+      <object-layer id="layer_3"
+                    objects="{{objects}}"
+                    index="3"
+                    wind="{{wind}}"
+                    view="{{view}}"
+                    cursor="{{cursor}}"
+                    selected="{{selected}}"
+                    inputMode="{{inputMode}}"
+                    driveMode="{{driveMode}}"
+                    interactMode="{{interactMode}}"
+                    warn="{{warn}}"
+                    leak="{{leak}}">>
+      </object-layer>
+      <object-layer id="layer_4"
+                    objects="{{objects}}"
+                    index="4"
+                    wind="{{wind}}"
+                    view="{{view}}"
+                    cursor="{{cursor}}"
+                    selected="{{selected}}"
+                    inputMode="{{inputMode}}"
+                    driveMode="{{driveMode}}"
+                    interactMode="{{interactMode}}"
+                    warn="{{warn}}"
+                    leak="{{leak}}">>
+      </object-layer>
+      <object-layer id="layer_5"
+                    objects="{{objects}}"
+                    index="5"
+                    wind="{{wind}}"
+                    view="{{view}}"
+                    cursor="{{cursor}}"
+                    selected="{{selected}}"
+                    inputMode="{{inputMode}}"
+                    driveMode="{{driveMode}}"
+                    interactMode="{{interactMode}}"
+                    warn="{{warn}}"
+                    leak="{{leak}}">>
+      </object-layer>
+    </div>
+    <!--<annotation-layer id="al"-->
+    <!--                  context="{{canvasContext}}"-->
+    <!--                  canvas="{{canvas}}"-->
+    <!--                  draw="{{draw}}"-->
+    <!--                  view="{{view}}"-->
+    <!--                  cursor="{{cursor}}"-->
+    <!--                  inputMode="{{inputMode}}">-->
+    <!--</annotation-layer>-->
+    <grease-pen-layer id="gpl"
+                      draw="{{draw}}"
+                      view="{{view}}"
+                      cursor="{{cursor}}"
+                      canvas="{{canvas}}"
+                      context="{{canvasContext}}"
+                      inputMode="{{inputMode}}"
+                      fit>
+    </grease-pen-layer>
+    <div id="cursor" class="noprint"></div>
+    <template repeat="{{object, index in objects}}">
+      <template if="{{object.type == 'vehicle'}}">
+        <div class="drive-end"
+             id="{{index}}"
+             style="opacity: {{object.points === 0 || !view.motionFreeze || zooming ? '0' : '1'}};
+                    position: absolute;
+                    padding: 8px;
+                    top: -20px;
+                    left: -20px;
+                    -webkit-transform: translate({{rootFrame.left + (object.points[object.points.length - 1].x * view.scaledZoom) || -1000}}px,
+                                                 {{rootFrame.top + (object.points[object.points.length - 1].y * view.scaledZoom) || -1000}}px);
+                    color: red;"
+                    on-down="{{selectPathEnd}}"
+                    on-track="{{movePathEnd}}"
+                    on-up="{{pathEndPlacementDone}}">
+          <core-icon icon="image:adjust"
+                     style="pointer-events: none;">
+          </core-icon>
+        </div>
+      </template>
+    </template>
+    <div id="tar"
+         style="opacity: {{selected.object.moving && !view.motionFreeze? '0' : '1'}};
+                position: absolute;
+                padding: 8px;
+                top: -20px;
+                left: -20px;
+                -webkit-transform: translate({{rootFrame.left + (selected.object.turret.target.x * view.scaledZoom) || -1000}}px,
+                                             {{rootFrame.top + (selected.object.turret.target.y * view.scaledZoom) || -1000}}px);
+                color: red;"
+                on-track="{{moveTarget}}"
+                on-tap="{{clearTarget}}"
+                on-down="{{setTargetUndo}}"
+                on-up="{{targetPlacementDone}}">
+      <core-icon icon="image:adjust"></core-icon>
+    </div>
+    <template if="{{inputMode == 'node-edit'}}">
+      <template repeat="{{point, index in selected.object.points}}">
+        <div id="{{index}}"
+             class="node-point"
+             on-track="{{moveNode}}"
+             style="opacity: {{zooming ? '0' : '1'}};
+                    -webkit-transform: translate({{rootFrame.left + ((point[0] + selected.object.position.x) * view.scaledZoom)}}px,
+                                                 {{rootFrame.top + ((point[1] + selected.object.position.y) * view.scaledZoom)}}px);">
+        </div>
+      </template>
+    </template>
+    <name-layer id="nl"
+                objects="{{objects}}"
+                view="{{view}}"
+                selected="{{selected}}"
+                visible="{{view.namesVisible}}"
+                rootFrame="{{rootFrame}}"
+                inputMode="{{inputMode}}">
+    </name-layer>
+    <edit-widget id="ew"
+                 class="noprint"
+                 selected="{{selected}}"
+                 view="{{view}}"
+                 warn="{{warn}}"
+                 leak="{{leak}}"
+                 cursor="{{cursor}}"
+                 inputMode="{{inputMode}}"
+                 rootFrame="{{rootFrame}}"
+                 objects="{{objects}}"
+                 driveMode="{{driveMode}}"
+                 interactMode="{{interactMode}}">
+    </edit-widget>
+    <div id="watermark">ARFF Interactive Board Trial Version</div>
+    <style>
+      :host{
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: gray;
+        cursor: {{{"crosshair":inputMode=="draw"||inputMode=="erase", "move":inputMode=="pan"}|tokenList}};
+      }
+      .node-point{
+        background-color: red;
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        width: 8px;
+        height: 8px;
+        border: 1px solid white;
+        border-radius: 50%;
+      }
+      #watermark{
+        color: red;
+        position: absolute;
+        top: 20vh;
+        left: 0;
+        right: 0;
+        pointer-events: none;
+        font-size: 48px;
+        opacity: {{isTrial ? 1 : 0}};
+      }
+      #tar{
+        display: {{zooming ? "none": "block"}};
+      }
+      #cursor{
+        display: {{{none:inputMode!="draw"&&inputMode!="erase"}|tokenList}};
+        position: absolute;
+        -webkit-transform: translate({{cursor.screen.current.x - (cursor.size / 2) - 0.5}}px, {{cursor.screen.current.y - (cursor.size / 2) - 1}}px);
+        width: {{cursor.size - 1}}px;
+        height: {{cursor.size - 1}}px;
+        border: 2px dotted rgba(0, 0, 0, 0.5);
+        border-radius: 1000px;
+      }
+      #root, #al{
+        -webkit-transform: translate({{view.offset.x}}px,{{view.offset.y}}px)
+                           scale({{view.scaledZoom}});
+        -webkit-transform-origin: {{centerX}}px {{centerY}}px;
+        width: {{view.size.width}}px;
+        height: {{view.size.height}}px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      #background{
+        z-index: -1;
+        pointer-events: none;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        transform: translate({{view.background.position.x}}px, {{view.background.position.y}}px);
+      }
+      paper-slider{
+        -webkit-user-select: none;
+        position: absolute;
+        bottom: 14px;
+        left: 185px;
+        width: 400px;
+      }
+      paper-toast{
+        bottom: 10px;
+        left: 150px;
+        width: 150px;
+      }
+      @media print{
+        .noprint{
+          display: none;
+        }
+      }
+    </style>
+  </template>
+  <script src="layer-manager.js">
+  </script>
+</polymer-element>

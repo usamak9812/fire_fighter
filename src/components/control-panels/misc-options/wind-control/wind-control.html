@@ -1,0 +1,103 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="/bower_components/dial-input/dial-input.html">
+<link rel="import"
+      href="/bower_components/paper-slider/paper-slider.html">
+<link rel="import"
+      href="/bower_components/paper-shadow/paper-shadow.html">
+<polymer-element name="wind-control"
+                 attributes="z
+                             pause
+                             interactMode
+                             wind">
+  <template>
+    <span id="title">Wind Direction & Speed</span>
+    <span id="speed-value">{{wind.speed}}</span>
+    <span id="mph-label">MPH</span>
+    <paper-slider id="speed-slider"
+                  max="60"
+                  min="0"
+                  immediateValue="{{wind.speed}}"
+                  value="0">
+    </paper-slider>
+    <paper-shadow z="1"
+                  fit>
+    </paper-shadow>
+    <dial-input scale="1.5" 
+                segments="16"
+                largeSegmentInterval="4"
+                revolutionValue="360"
+                decimalAccuracy="0"
+                loopBack
+                segmentLockTogglable
+                accentColor="#cdc"
+                dialColor="#353"
+                backColor="#686"
+                descriptor="Degrees"
+                value="{{wind.direction}}"
+                z="{{z}}"
+                on-down="{{directionChanging}}">
+    </dial-input>
+    <style>
+      :host{
+        -webkit-user-select: none;
+        text-align: left;
+        position: absolute;
+        width: 412px;
+        height: 96px;
+        background: #686;
+      }
+      paper-shadow{
+        pointer-events: none;
+      }
+      dial-input{
+        margin-left: -96px;
+      }
+      #title{
+        color: #cdc;
+        position: absolute;
+        text-align: center;
+        top: 8px;
+        right: 16px;
+        left: 88px;
+        font-size: 24px;
+      }
+      #speed-value{
+        position: absolute;
+        right: 16px;
+        width: 40px;
+        top: 44px;
+        text-align: center;
+        font-size: 20px;
+        color: #cdc;
+      }
+      #mph-label{
+        position: absolute;
+        right: 16px;
+        width: 40px;
+        top: 66px;
+        font-size: 16px;
+        color: #cdc;
+        text-align: center;
+      }
+      #speed-slider{
+        -webkit-user-select: none;
+        background-color: #686;
+        position: absolute;
+        width: auto;
+        top: 52px;
+        left: 104px;
+        right: 64px;
+      }
+      #speed-slider::shadow #sliderBar::shadow #activeProgress{
+        background-color: #353;
+      }
+      #speed-slider::shadow #sliderKnobInner {
+        background-color: #353;
+      }
+    </style>
+  </template>
+  <script src="wind-control.js">
+  </script>
+</polymer-element>

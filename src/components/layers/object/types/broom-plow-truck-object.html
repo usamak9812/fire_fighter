@@ -1,0 +1,33 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="plow-truck-object.html">
+<polymer-element name="broom-plow-truck-object"
+                 extends="plow-truck-object">
+  <template>
+    <div vertical layout center center-justified fit>
+      <img id="broom"
+           src="{{objectData.plow.graphicB}}">
+    </div>
+    <shadow></shadow>
+    <div vertical layout center center-justified fit>
+      <img id="plow"
+           src="{{objectData.plow.graphicA}}">
+    </div>
+    <style>
+      #plow{
+        transform: rotate({{objectData.rotation}}rad)
+                   translate({{objectData.plow.offsetA}}px, 0)
+                   rotate(90deg)
+                   rotate({{plowRotation}}deg);
+      }
+      #broom{
+        transform: rotate({{objectData.rotation}}rad)
+                   translate({{objectData.plow.offsetB}}px, 0)
+                   rotate(90deg)
+                   rotate({{plowRotation}}deg);
+      }
+    </style>
+  </template>
+  <script src="broom-plow-truck-object.js"></script>
+</polymer-element>

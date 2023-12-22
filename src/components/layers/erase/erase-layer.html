@@ -1,0 +1,43 @@
+<link rel="import"
+      href="../../../bower_components/polymer/polymer.html">
+<polymer-element name="erase-layer"
+                 attributes="inputMode
+                             canvasContext
+                             draw
+                             view"
+                 fit>
+  <template>
+    <div id="receiver"
+         touch-action="none"
+         on-down="{{startErase}}"
+         on-track="{{moveErase}}"
+         on-up="{{endErase}}"
+         fit>
+    </div>
+    <div id="cursor"
+         class="hide">
+    </div>
+    <style>
+      :host{
+        display: {{{none:inputMode!="erase", block:inputMode=="erase"}|tokenList}};
+        cursor: crosshair;
+      }
+      #cursor{
+        position: absolute;
+        top: -{{(weight * 5) + 2}}px;
+        left: -{{(weight * 5) + 2}}px;
+        -webkit-transform: translate({{cursorPoint.x}}px, {{cursorPoint.y}}px);
+        width: {{(weight * 10) + 1}}px;
+        height: {{(weight * 10) + 1}}px;
+        border: 2px dashed black;
+        border-radius: 1000px;
+        pointer-events: none;
+      }
+      .hide{
+        display: none;
+      }
+    </style>
+  </template>
+  <script src="erase-layer.js">
+  </script>
+</polymer-element>

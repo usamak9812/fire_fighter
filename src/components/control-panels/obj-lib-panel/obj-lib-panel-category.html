@@ -1,0 +1,128 @@
+<link rel="import"
+      href="types/vehicle-lib-obj.html">
+<link rel="import"
+      href="types/aircraft-lib-obj.html">
+<link rel="import"
+      href="types/other-lib-obj.html">
+<link rel="import"
+      href="types/front-view-lib-obj.html">
+<polymer-element name="obj-lib-panel-category"
+                 attributes="type
+                             objects
+                             entries
+                             view
+                             selected
+                             inputMode
+                             colors
+                             currentColor"
+                 draggable="false">
+  <template>
+    <div id="scroll">
+      <div id="content">
+        <template repeat="{{entry, idx in entries}}">
+          <template if="{{type=='Vehicle'}}">
+            <vehicle-lib-obj style="left: {{(idx * 152) + 2}}px;"
+                             entry="{{entry}}"
+                             inputMode="{{inputMode}}"
+                             view="{{view}}"
+                             selected="{{selected}}"
+                             objects="{{objects}}"
+                             colors="{{colors}}"
+                             currentColor="{{currentColor}}">
+            </vehicle-lib-obj>
+          </template>
+          <template if="{{type=='Aircraft'}}">
+            <aircraft-lib-obj style="left: {{(idx * 152) + 2}};"
+                              entry="{{entry}}"
+                              inputMode="{{inputMode}}"
+                              view="{{view}}"
+                              selected="{{selected}}"
+                              objects="{{objects}}">
+            </aircraft-lib-obj>
+          </template>
+          <template if="{{type=='Front View'}}">
+            <front-view-lib-obj style="left: {{(idx * 152) + 2}};"
+                                entry="{{entry}}"
+                                inputMode="{{inputMode}}"
+                                view="{{view}}"
+                                selected="{{selected}}"
+                                objects="{{objects}}">
+            </front-view-lib-obj>
+          </template>
+          <template if="{{type=='Misc'}}">
+            <other-lib-obj style="left: {{(idx * 152) + 2}};"
+                       entry="{{entry}}"
+                       inputMode="{{inputMode}}"
+                       view="{{view}}"
+                       selected="{{selected}}"
+                       objects="{{objects}}">
+            </other-lib-obj>
+          </template>
+        </template>
+      </div>
+    </div>
+    <div id="left-gradient"></div>
+    <div id="right-gradient"></div>
+    <style>
+      :host{
+        -webkit-transition: 0.25s;
+        -webkit-transform: translateY(100%);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #686;
+      }
+      #scroll{
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        overflow-x: scroll;
+        overflow-y: hidden;
+      }
+      #scroll::-webkit-scrollbar{
+        height: 10px;
+      }
+      #scroll::-webkit-scrollbar-thumb{
+        background-color: #aba;
+        border: 3px solid #686;
+      }
+      #content{
+        width: {{contentWidth}}px;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        margin: 6px;
+      }
+      #right-gradient{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        top: 0;
+        width: 12px;
+        z-index: 2;
+        background: -webkit-linear-gradient(left,
+                                            rgba(102, 136, 102, 0),
+                                            rgba(102, 136, 102, 1));
+      }
+      #left-gradient{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        top: 0;
+        width: 12px;
+        z-index: 2;
+        background: -webkit-linear-gradient(right,
+                                            rgba(102, 136, 102, 0),
+                                            rgba(102, 136, 102, 1));
+      }
+    </style>
+  </template>
+  <script src="obj-lib-panel-category.js">
+  </script>
+</polymer-element>

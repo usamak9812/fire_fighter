@@ -1,0 +1,42 @@
+<link rel="import"
+      href="../../../bower_components/polymer/polymer.html">
+<polymer-element name="draw-layer"
+                 attributes="inputMode
+                             view
+                             draw
+                             canvasContext"
+                 fit>
+  <template>
+    <div id="receiver"
+         touch-action="none"
+         on-down="{{startDraw}}"
+         on-track="{{moveDraw}}"
+         on-up="{{endDraw}}">
+    </div>
+    <div id="cursor">
+    </div>
+    <style>
+      :host{
+        display: {{{none:inputMode!="draw", block:inputMode=="draw"}|tokenList}};
+        cursor: crosshair;
+      }
+      #receiver{
+        width: {{view.width}};
+        height: {{view.height}};
+      }
+      #cursor{
+        position: absolute;
+        top: -{{(draw.weight.value / 2) + 2}}px;
+        left: -{{(draw.weight.value / 2) + 2}}px;
+        -webkit-transform: translate({{view.cursorPosition.x}}px, {{view.cursorPosition.y}}px);
+        width: {{draw.weight.value + 1}}px;
+        height: {{draw.weight.value + 1}}px;
+        border: 2px solid black;
+        border-radius: 1000px;
+        pointer-events: none;
+      }
+    </style>
+  </template>
+  <script src="draw-layer.js">
+  </script>
+</polymer-element>

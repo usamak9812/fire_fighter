@@ -1,0 +1,54 @@
+<link rel="import"
+      href="../../../bower_components/polymer/polymer.html">
+<link rel="import"
+      href="../../../bower_components/paper-fab/paper-fab.html">
+<link rel="import"
+      href="../../../bower_components/core-media-query/core-media-query.html">
+<link rel="import"
+      href="../../custom-icons.html">
+<polymer-element name="line-weight-select"
+                 attributes="weight
+                             inputMode">
+  <template>
+    <paper-fab id="toggle"
+               title="Line Weight"
+               class="{{{mini:!big}|tokenList}}"
+               icon="line-weight:{{weight.name}}"
+               on-tap="{{toggle}}"
+               mini>
+    </paper-fab>
+    <template repeat="{{weightItem in weightList}}">
+      <paper-fab id="{{weightItem.name}}"
+                 class="{{{selected:weightItem.name==weight.name}|tokenList}} weight-option"
+                 icon="line-weight:{{weightItem.name}}"
+                 on-tap="{{weightSelect}}"
+                 mini>
+      </paper-fab>
+    </template>
+    <style>
+      :host{
+        position: relative;
+      }
+      #toggle{
+        background-color: #866;
+        color: white;
+      }
+      .weight-option{
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: 0.25s;
+        opacity: 0;
+        z-index: 3;
+        pointer-events: none;
+        background-color: #866;
+        color: white;
+      }
+      .selected{
+        background-color: #a88;
+      }
+    </style>
+  </template>
+  <script src="line-weight-select.js">
+  </script>
+ </polymer-element>

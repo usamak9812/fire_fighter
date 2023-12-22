@@ -1,0 +1,83 @@
+{
+  name: "GS-5xxA3",
+  graphic: "assets/lib/aircraft/GS-5xxA3/GS-5xxA3.svg",
+  parts: [
+    {
+      name: "GS-5xxA3_engine_L_1",
+      offset: {
+        x: 116.6000000000002,
+        y: 131.19999999999982
+      }
+    },
+    {
+      name: "GS-5xxA3_engine_R_2",
+      offset: {
+        x: 129.99999999999983,
+        y: 130.99999999999983
+      }
+    },
+    {
+      name: "GS-5xxA3_tail_L",
+      offset: {
+        x: 106.69999999999983,
+        y: 156.9999999999998
+      }
+    },
+    {
+      name: "GS-5xxA3_tail_R",
+      offset: {
+        x: 128.0000000000001,
+        y: 156.9999999999999
+      }
+    },
+    {
+      name: "GS-5xxA3_wing_L_1",
+      offset: {
+        x: 105.60000000000008,
+        y: 112.30000000000013
+      }
+    },
+    {
+      name: "GS-5xxA3_wing_L_2",
+      offset: {
+        x: 81.20000000000003,
+        y: 121.5
+      }
+    },
+    {
+      name: "GS-5xxA3_fuselage_1",
+      offset: {
+        x: 123.20000000000017,
+        y: 79.80000000000008
+      }
+    },
+    {
+      name: "GS-5xxA3_fuselage_2",
+      offset: {
+        x: 122.5000000000002,
+        y: 109.30000000000028
+      }
+    },
+    {
+      name: "GS-5xxA3_fuselage_3",
+      offset: {
+        x: 123.40000000000012,
+        y: 135.9999999999997
+      }
+    },
+    {
+      name: "GS-5xxA3_wing_R_1",
+      offset: {
+        x: 132.10000000000002,
+        y: 112.29999999999997
+      }
+    },
+    {
+      name: "GS-5xxA3_wing_R_2",
+      offset: {
+        x: 148.10000000000045,
+        y: 121.50000000000028
+      }
+    },
+  ]
+}

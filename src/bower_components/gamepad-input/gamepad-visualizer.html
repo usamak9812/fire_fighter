@@ -1,0 +1,310 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+
+</head><body><polymer-element name="gamepad-visualizer" attributes="pad
+                             number" noscript="">
+
+  <template>
+
+    <div id="left-trigger-slide" class="slide">
+
+      <div id="left-trigger" style="position: absolute;
+                  width: 20px;
+                  height: 20px;
+                  top: 74px;
+                  left: -20px;
+                  background-color: gray;
+                  -webkit-transform-origin: 104px;
+                  -webkit-transform: rotate({{pad.axes.lt * -39}}deg);">
+      </div>
+
+    </div>
+
+    <div id="right-trigger-slide" class="slide">
+
+      <div id="right-trigger" style="position: absolute;
+                  width: 20px;
+                  height: 20px;
+                  top: 74px;
+                  right: -20px;
+                  background-color: gray;
+                  -webkit-transform-origin: -84px;
+                  -webkit-transform: rotate({{pad.axes.rt * 39}}deg);">
+      </div>
+
+    </div>
+
+    <div id="left-analog" class="stick-container" style="bottom: 90px;
+                left: 60px;">
+
+      <div class="stick" style="-webkit-transform: rotate({{pad.axes.la}}rad)
+                                     translateX({{pad.axes.lm * 20}}px);">
+
+        <div id="left-analog-button" class="button" style="background-color: {{pad.buttons.la == 1 ? 'lightgray' : 'darkgray'}};
+                    top: 10px;
+                    left: 10px;">
+        </div>
+
+      </div>
+
+    </div>
+
+    <div id="right-analog" class="stick-container" style="bottom: 20px;
+                right: 90px;">
+
+      <div class="stick" style="-webkit-transform: rotate({{pad.axes.ra}}rad)
+                                     translateX({{pad.axes.rm * 20}}px);">
+
+        <div id="right-analog-button" class="button" style="background-color: {{pad.buttons.ra == 1 ? 'lightgray' : 'darkgray'}};
+                    top: 10px;
+                    left: 10px;">
+        </div>
+
+      </div>
+
+    </div>
+
+    <div id="d-pad" class="stick-container" style="bottom: 20px;
+                left: 90px;">
+
+      <div class="stick">
+
+        <div class="dpad-direction" style="background-color: {{pad.axes.dv == -1 ? 'lightgray' : 'darkgray'}};
+                    top: 0;
+                    left: 14px;">
+        </div>
+
+        <div class="dpad-direction" style="background-color: {{pad.axes.dh == 1 ? 'lightgray' : 'darkgray'}};
+                    top: 14px;
+                    right: 0;">
+        </div>
+
+        <div class="dpad-direction" style="background-color: {{pad.axes.dv == 1 ? 'lightgray' : 'darkgray'}};
+                    bottom: 0;
+                    left: 14px;">
+        </div>
+
+        <div class="dpad-direction" style="background-color: {{pad.axes.dh == -1 ? 'lightgray' : 'darkgray'}};
+                    top: 14px;
+                    left: 0;">
+        </div>
+
+      </div>
+
+    </div>
+
+    <div id="pad-box" style="position: absolute;
+                bottom: 80px;
+                right: 50px;
+                width: 60px;
+                height: 60px;">
+
+      <div id="button-a" class="button" style="background-color: {{pad.buttons.a == 1 ? '#00f' : '#aaf'}};
+                  bottom: 0;
+                  left: 20px;">
+      </div>
+
+      <div id="button-b" class="button" style="background-color: {{pad.buttons.b == 1 ? '#0f0' : '#afa'}};
+                  bottom: 20px;
+                  right: 0;">
+      </div>
+
+      <div id="button-c" class="button" style="background-color: {{pad.buttons.c == 1 ? '#f00' : '#faa'}};
+                  bottom: 20px;
+                  left: 0;">
+      </div>
+
+      <div id="button-d" class="button" style="background-color: {{pad.buttons.d == 1 ? '#ff0' : '#ffa'}};
+                  top: 0;
+                  right: 20px;">
+      </div>
+
+    </div>
+
+    <div id="option-a" class="button" style="background-color: {{pad.buttons.oa == 1 ? '#fa0' : '#fb8'}};
+                bottom: 95px;
+                left: 150px;">
+    </div>
+
+    <div id="option-b" class="small-button" style="background-color: {{pad.buttons.ob == 1 ? 'lightgray' : 'darkgray'}};
+                bottom: 120px;
+                left: 130px;">
+    </div>
+
+    <div id="option-c" class="small-button" style="background-color: {{pad.buttons.oc == 1 ? 'lightgray' : 'darkgray'}};
+                bottom: 120px;
+                right: 130px;">
+    </div>
+
+    <div id="left-bumper" class="bumper" style="background-color: {{pad.buttons.lb == 1 ? 'lightgray' : 'darkgray'}};
+                -webkit-transform: rotate(-10deg);
+                bottom: 160px;
+                left: 70px;">
+    </div>
+
+    <div id="right-bumper" class="bumper" style="background-color: {{pad.buttons.rb == 1 ? 'lightgray' : 'darkgray'}};
+                -webkit-transform: rotate(10deg);
+                bottom: 160px;
+                right: 70px;">
+    </div>
+
+    <div style="position: absolute;
+                top: 8px;
+                left: 60px;
+                right: 60px;
+                text-align: center;
+                font-size: 12px;">
+
+      Pad {{number}}
+
+    </div>
+
+    <div style="position: absolute;
+                top: 24px;
+                left: 60px;
+                right: 60px;
+                text-align: center;
+                font-size: 10px;">
+
+      {{pad.id || 'disconnected'}}
+
+    </div>
+
+    <style>
+
+      :host{
+
+        position: relative;
+
+        width: 320px;
+
+        height: 240px;
+
+        margin: 32px;
+
+        background-color: white;
+
+        border-radius: 400px;
+
+      }
+
+      .slide{
+
+        position: absolute;
+
+        top: 16px;
+
+        width: 168px;
+
+        height: 168px;
+
+        border: 20px solid lightgray;
+
+        border-radius: 50%;
+
+        border-top-color: transparent;
+
+        border-bottom-color: transparent;
+
+      }
+
+      #left-trigger-slide{
+
+        border-right-color: transparent;
+
+        left: 16px;
+
+      }
+
+      #right-trigger-slide{
+
+        border-left-color: transparent;
+
+        right: 16px;
+
+      }
+
+      .stick-container{
+
+        width: 50px;
+
+        height: 50px;
+
+        border-radius: 500px;
+
+        position: absolute;
+
+        background-color: lightgray;
+
+      }
+
+      .stick{
+
+        position: absolute;
+
+        overflow: hidden;
+
+        top: 5px;
+
+        left: 5px;
+
+        width: 40px;
+
+        height: 40px;
+
+        border-radius: 500px;
+
+        background-color: gray;
+
+      }
+
+      .button{
+
+        position: absolute;
+
+        width: 20px;
+
+        height: 20px;
+
+        border-radius: 500px;
+
+      }
+
+      .small-button{
+
+        position: absolute;
+
+        width: 10px;
+
+        height: 10px;
+
+        border-radius: 500px;
+
+      }
+
+      .bumper{
+
+        position: absolute;
+
+        width: 50px;
+
+        height: 20px;
+
+        border-radius: 5px;
+
+      }
+
+      .dpad-direction{
+
+        position: absolute;
+
+        width: 12px;
+
+        height: 12px;
+
+      }
+
+    </style>
+
+  </template>
+
+</polymer-element></body></html>

@@ -1,0 +1,149 @@
+<link rel="import"
+      href="../../../bower_components/polymer/polymer.html">
+<link rel="import"
+      href="../../../bower_components/paper-shadow/paper-shadow.html">
+<link rel="import"
+      href="../../../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import"
+      href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import"
+      href="../../../bower_components/core-input/core-input.html">
+<polymer-element name="fire-control-item"
+                 attributes="objectData
+                             objects
+                             groups
+                             selectedItem
+                             selected
+                             inputMode
+                             interactMode
+                             modeSelect"
+                 on-click="{{select}}">
+  <template>
+    <div vertical layout>
+      <div horizontal layout>
+        <div layout vertical>
+          <paper-icon-button id="up"
+                             icon="expand-less"
+                             class="{{selected.object == objectData ? '' : 'disabled'}}"
+                             on-tap="{{move}}">
+          </paper-icon-button>
+          <paper-icon-button id="down"
+                             icon="expand-more"
+                             class="{{selected.object == objectData ? '' : 'disabled'}}"
+                             on-tap="{{move}}">
+          </paper-icon-button>
+        </div>
+        <div flex vertical layout center around-justified>
+          <template repeat="{{group, index in groups}}">
+            <div class="group-button"
+                 selected?="{{group}}"
+                 on-tap="{{toggleGroup}}">{{index + 1}}</div>
+          </template>
+        </div>
+        <div vertical layout>
+          <paper-icon-button id="fire-mode"
+                             class="{{{'selected':selected.object==objectData}|tokenList}}"
+                             src="/assets/icon/fire/icon_{{objectData.mode}}.svg"
+                             on-tap="{{toggleModeSelect}}"
+                             fill>
+          </paper-icon-button>
+          <paper-icon-button id="lock"
+                             title="{{{'Alter Wind Effect':objectData.type=='fire','Track Vehicle':objectData.type=='vehicle'}|tokenList}}"
+                             class="tl {{{'visible':inputMode=='obj-edit'&&objectData.locked!=null}|tokenList}} option {{selected.object == objectData ? '' : 'disabled'}}"
+                             on-tap="{{toggleLock}}"
+                             icon="{{{'lock':objectData.locked, 'lock-open':!objectData.locked}|tokenList}}"
+                             mini>
+          </paper-icon-button>
+        </div>
+      </div>
+      <input is="core-input"
+             id="name"
+             class="{{{'selected':selected.object==objectData}|tokenList}} {{selected.object == objectData ? '' : 'disabled'}}"
+             spellcheck="false"
+             value="{{objectData.name}}"
+             rows="1">
+      </input>
+    </div>
+    <paper-shadow id="shadow"
+                  z="0"
+                  animated
+                  fit>
+    </paper-shadow>
+    <style>
+      :host{
+        position: relative;
+        display: block;
+        width: auto;
+        padding: 2px;
+        border: 1px solid #575;
+        border-radius: 3px;
+        text-align: center;
+        margin: 0 6px 16px 16px;
+        -webkit-user-select: none;
+        cursor: default;
+        color: #797;
+        background-image: url(../../../assets/icon/fire_item_back.svg);
+        background-size: 104px 104px;
+        background-position-x: 40%;
+        background-position-y: 20%;
+        background-repeat: no-repeat;
+      }
+      paper-shadow{
+        pointer-events: none;
+      }
+      paper-icon-button{
+        margin: 2px;
+        border: 1px solid #575;
+        border-radius: 50px;
+        color: #cdc;
+        background: #686;
+        fill: white;
+      }
+      .disabled{
+        pointer-events: none;
+      }
+      .group-button{
+        font-size: 12px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 1px solid #575;
+        background: #686;
+        color: #cdc;
+      }
+      .group-button[selected]{
+        background: #cdc;
+        color: #575;
+      }
+      #fire-mode{
+        -webkit-transition: 0.25s;
+        margin-left: 1px;
+        margin-top: 4px;
+        border: 1px solid #686;
+        background-color: #fd0;
+        border-radius: 100px;
+      }
+      #name{
+        background: #686;
+        font-size: 16px;
+        padding: 4px;
+        width: auto;
+        margin: 2px;
+        color: #cdc;
+        vertical-align: top;
+        color: #cdc;
+        border: 1px solid #575;
+        cursor: default;
+        text-align: center;
+      }
+      #name.selected{
+        cursor: text;
+      }
+      #name::shadow #input{
+        text-align: center;
+      }
+    </style>
+  </template>
+  <script src="fire-control-item.js">
+  </script>
+</polymer-element>

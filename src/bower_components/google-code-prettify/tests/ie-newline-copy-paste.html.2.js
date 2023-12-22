@@ -1,0 +1,1 @@
+makeCodeJoiningOn('CRLF', '&#160;\r\n');

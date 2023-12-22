@@ -1,0 +1,9 @@
+{
+  "name": "gamepad-input",
+  "version": "1.0",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer#master",
+    "paper-dialog": "Polymer/paper-dialog#master"
+  }
+}

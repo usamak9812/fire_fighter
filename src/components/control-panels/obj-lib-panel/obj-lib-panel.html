@@ -1,0 +1,137 @@
+<link rel="import"
+      href="../../../bower_components/polymer/polymer.html">
+<link rel="import"
+      href="../../../bower_components/paper-shadow/paper-shadow.html">
+<link rel="import"
+      href="../../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import"
+      href="../../../bower_components/core-icon/core-icon.html">
+<link rel="import"
+      href="../../../bower_components/core-icons/maps-icons.html">
+<link rel="import"
+      href="../../../bower_components/core-icons/communication-icons.html">
+<link rel="import"
+      href="obj-lib-panel-category.html">
+<polymer-element name="obj-lib-panel"
+                 attributes="library
+                             view
+                             objects
+                             selected
+                             inputMode
+                             interactMode
+                             panels">
+  <template>
+    <paper-shadow z="1"
+                  fit>
+    </paper-shadow>
+    <div id="hide"
+         on-tap="{{toggleOpen}}">
+      <paper-shadow z="1" fit></paper-shadow>
+      <paper-ripple fit></paper-ripple>
+      <core-icon icon="{{panels.lib.open ? 'expand-more' : 'add-box'}}">
+      </core-icon>
+    </div>
+    <div id="tab-container">
+      <paper-tabs selected="{{currentTab}}">
+        <template repeat="{{category in library.categories}}">
+          <paper-tab>
+            <core-icon class="tab-icon"
+                       icon="{{category.icon}}">
+            </core-icon>
+            {{category.name}}
+          </paper-tab>
+        </template>
+      </paper-tabs>
+      <paper-shadow z="1"
+                    fit>
+      </paper-shadow>
+    </div>
+    <div id="tab-content-block">
+      <template repeat="{{category in library.categories}}">
+        <obj-lib-panel-category id="{{category}}"
+                                entries="{{library[category.name]}}"
+                                objects="{{objects}}"
+                                selected="{{selected}}"
+                                view="{{view}}"
+                                type="{{category.name}}"
+                                inputMode="{{inputMode}}"
+                                colors="{{colors}}"
+                                currentColor="{{currentColor}}">
+        </obj-lib-panel-category>
+      </template>
+    </div>
+    <style>
+      :host{
+        position: absolute;
+        transition: 0.25s;
+        -webkit-transform: translateY({{panels.lib.open ? "0" : "200px"}});
+        bottom: 8px;
+        left: 524px;
+        right: 8px;
+        height: 192px;
+        background: #686;
+      }
+      #hide{
+        transition: 0.25s;
+        -webkit-transform: translateX({{panels.obj.open || panels.vehicle.open ? "-184px" : panels.evacuation.open ? "-360px" : panels.lib.open ? "-48px" : "8px"}});
+        position: absolute;
+        top: -40px;
+        right: 0;
+        background-color: #686;
+        padding: 8px;
+        color: #cdc;
+        z-index: 1;
+      }
+      paper-shadow{
+        pointer-events: none;
+      }
+      paper-tab{
+        color: #cdc;
+      }
+      paper-tab::shadow #ink{
+        color: #8a8;
+      }
+      .tab-icon{
+        margin-right: 8px;
+      }
+      #tab-container{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 48px;
+        z-index: 2;
+        background-color: #686;
+        pointer-events: none;
+      }
+      paper-tabs{
+        pointer-events: all;
+      }
+      paper-tabs::shadow #selectionBar{
+        background-color: #cdc;
+      }
+      #tab-content-block{
+        position: absolute;
+        top: 48px;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        overflow: hidden;
+      }
+      .tab-content{
+        -webkit-transition: 0.25s;
+        -webkit-transform: translateY(100%);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #686;
+      }
+      #Vehicles{
+        -webkit-transform: translateX(0);
+      }
+    </style>
+  </template>
+  <script src="obj-lib-panel.js"></script>
+</polymer-element>

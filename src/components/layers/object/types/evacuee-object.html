@@ -1,0 +1,86 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="/bower_components/core-icons/core-icons.html">
+<link rel="import"
+      href="/bower_components/core-icon/core-icon.html">
+<link rel="import"
+      href="base-object.html">
+<polymer-element name="evacuee-object"
+                 extends="base-object">
+  <template>
+    <div id="root">
+      <img id="slide"
+           src="/assets/lib/other/escape_slide_long.svg"
+           on-click="{{select}}">
+      <core-icon id="arrow"
+                 icon="arrow-forward"
+                 on-click="{{select}}"
+                 on-touchStart="{{select}}">
+      </core-icon>
+      <div id="evacuees">
+        <template repeat="{{p in particles}}">
+          <div class="particle"
+               fit
+               style="background-position: {{-2 * p.frame}}px 0;
+                      -webkit-transform: rotate({{(p.rand * p.rot * objectData.spread) + (objectData.direction * p.rot)}}rad)
+                                         translateY({{p.pos * 100}}px)
+                                         rotate({{((p.rand * p.rot * objectData.spread) + (objectData.direction * p.rot)) / 1.2}}rad);
+                      opacity: {{(-2 * pow(p.pos - 1, 18)) - (2 * p.pos) + 2}};
+                      {{{'':p.active,'opacity: 0':!p.active}|tokenList}};
+                      z-index: {{p.frame}};
+                      background-image: url(/assets/lib/other/evacuee_{{p.color}}.svg);"
+               on-click="{{select}}"
+               on-touchStart="{{select}}">
+        </template>
+      </div>
+    </div>
+    <style>
+      :host{
+        top: -16px;
+        left: -16px;
+        width: 32px;
+        height: 32px;
+      }
+      #arrow{
+        position: absolute;
+        top: 35px;
+        display: block;
+        pointer-events: {{{"none":selected.object==objectData, "all":selected.object!=objectData}|tokenList}};
+        opacity: {{interactMode ? 0 : 0.25}};
+        transform: translate(4px, -24px) rotate(90deg);
+      }
+      #root{
+        width: 32px;
+        height: 32px;
+        transform: rotate({{objectData.rotation}}rad);
+      }
+      #slide{
+        position: absolute;
+        top: -2px;
+        left: 11px;
+        transition: 5s;
+        width: 80px;
+        height: 168px;
+        opacity: {{objectData.subtype == "slide" ? "1" : "0"}};
+        transform-origin: 0 0;
+        transform: scaleX(0.125) scaleY({{objectData.deployed ? "0.125" : "0"}});
+        margin-top: 16px;
+        pointer-events: {{{"none":selected.object==objectData, "all":selected.object!=objectData}|tokenList}};
+      }
+      #evacuees{
+        position: absolute;
+        top: 14px;
+        left: 15px;
+      }
+      .particle{
+        width: 2px;
+        height: 4px;
+        background-size: 50px 4px;
+        pointer-events: {{{"none":selected.object==objectData, "all":selected.object!=objectData}|tokenList}};
+      }
+    </style>
+  </template>
+  <script src="evacuee-object.js">
+  </script>
+</polymer-element>

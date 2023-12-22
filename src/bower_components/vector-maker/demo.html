@@ -1,0 +1,64 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="vector-maker.html">
+
+</head><body unresolved=""><polymer-element name="vector-maker-demo">
+  
+  <template>
+    
+    <vector-maker vector="{{vector}}" pointa="{{pointA}}" pointb="{{pointB}}">
+    </vector-maker>
+    
+    <div id="click-area" on-click="{{updateVector}}" style="z-index: 100;" fit="">
+      
+    </div>
+      
+    <div style="position: absolute;
+                top: 398px;
+                left: 398px;
+                width: 3px;
+                height: 3px;
+                background-color: red;">
+    </div>
+    
+    <div>Vector is being calculated from the red dot.</div>
+    
+    <div>Current Rise: {{vector.current.rise}}</div>
+    
+    <div>Current Run: {{vector.current.run}}</div>
+    
+    <div>Current Angle: {{vector.current.angle}}</div>
+    
+    <div>Current length: {{vector.current.length}}</div>
+    
+    <div>Last Rise: {{vector.last.rise}}</div>
+    
+    <div>Last Run: {{vector.last.run}}</div>
+    
+    <div>Last Angle: {{vector.last.angle}}</div>
+    
+    <div>Last length: {{vector.last.length}}</div>
+    
+    <div>Rise Delta: {{vector.delta.rise}}</div>
+    
+    <div>Run Delta: {{vector.delta.run}}</div>
+    
+    <div>Angle Delta: {{vector.delta.angle}}</div>
+    
+    <div>Length Delta: {{vector.delta.length}}</div>
+    
+  </template>
+  
+  <script src="demo.html.0.js"></script>
+  
+</polymer-element>
+
+
+  
+  
+    
+    <vector-maker-demo></vector-maker-demo>
+    
+  
+  
+</body></html>

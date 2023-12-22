@@ -1,0 +1,47 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<polymer-element name="name-layer"
+                 attributes="view
+                             objects
+                             selected
+                             rootFrame
+                             inputMode"
+                 fit>
+  <template>
+    <template repeat="{{object in objects}}">
+      <template if="{{object.type == 'vehicle'}}">
+        <div id="name" style="display: {{view.namesVisible && (object != selected.object || (object == selected.object && object.speed !== 0) || inputMode == 'obj-drive-forward' || inputMode == 'obj-drive-reverse') ? 'block' : 'none'}};
+                              -webkit-transform: translate({{rootFrame.left + (object.position.x * view.scaledZoom)}}px,
+                                                           {{rootFrame.top + (object.position.y * view.scaledZoom)}}px);">
+          {{object.name}}
+          <div id="line"></div>
+        </div>
+      </template>
+    </template>
+    <style>
+      :host{
+        pointer-events: none;
+      }
+      #line{
+        -webkit-transform: rotate(45deg);
+        position: absolute;
+        top: 27px;
+        left: -11px;
+        width: 2px;
+        height: 40px;
+        background-color: darkgreen;
+      }
+      #name{
+        position: absolute;
+        top: -60px;
+        left: 24px;
+        border-radius: 80px 80px 80px 0;
+        padding: 8px;
+        font-size: 16px;
+        color: white;
+        background-color: darkgreen;
+      }
+    </style>
+  </template>
+  <script src="name-layer.js"></script>
+</polymer-element>

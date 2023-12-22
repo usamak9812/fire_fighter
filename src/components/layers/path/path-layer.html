@@ -1,0 +1,26 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<polymer-element name="path-layer"
+                 attributes="objects
+                             view"
+                 fit>
+  <template>
+    <svg height="2048" width="2048">
+      <template repeat="{{object in objects}}">
+        <template if="{{object.type == 'vehicle'}}">
+          <path d="{{object.path}}" 
+                stroke="{{object.pathColor}}"
+                stroke-width="{{2 / view.scaledZoom}}"
+                stroke-dasharray="{{0.25 * view.scaledGlobalScale}}, {{0.2 * view.scaledGlobalScale}}"
+                fill="none"/>
+          <path d="{{object.futurePath}}" 
+                stroke="{{object.pathColor}}"
+                stroke-width="{{2 / view.scaledZoom}}"
+                stroke-dasharray="{{0.08 * view.scaledGlobalScale}}, {{0.2 * view.scaledGlobalScale}}"
+                fill="none"/>
+        </template>
+      </template>
+    </svg>
+  </template>
+  <script src="path-layer.js"></script>
+</polymer-element>

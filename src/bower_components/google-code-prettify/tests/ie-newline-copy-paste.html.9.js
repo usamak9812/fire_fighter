@@ -1,0 +1,1 @@
+makeCodeJoiningOn('CR+BR', '&#160;\r<br>');

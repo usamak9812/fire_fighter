@@ -1,0 +1,23 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="base-object.html">
+<polymer-element name="fuel-leak"
+                 extends="interactive-object"
+                 attributes="objectData
+                             interactMode
+                             leakVisible
+                             leakExists
+                             view"
+                 layout horizontal center center-justified>
+  <template>
+    <shadow></shadow>
+    <style>
+      :host{
+        z-index: -1;
+        transition: opacity 1s;
+      }
+    </style>
+  </template>
+  <script src="fuel-leak.js"></script>
+</polymer-element>

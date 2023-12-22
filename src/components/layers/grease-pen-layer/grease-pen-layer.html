@@ -1,0 +1,25 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<polymer-element name="grease-pen-layer"
+                 attributes="draw
+                             cursor
+                             view
+                             canvas
+                             context
+                             inputMode"
+                 fit>
+  <template>
+    <canvas id="canvas"
+            width="{{canvasWidth}}"
+            height="{{canvasHeight}}">
+    </canvas>
+    <style>
+      :host{
+        /*background: rgba(50, 50, 255, 0.5);*/
+        pointer-events: none;
+      }
+    </style>
+  </template>
+  <script src="grease-pen-layer.js"></script>
+</polymer-element>
+

@@ -1,0 +1,44 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="/bower_components/paper-dialog/paper-dialog.html">
+<link rel="import"
+      href="/bower_components/paper-shadow/paper-shadow.html">
+<link rel="import"
+      href="/bower_components/paper-button/paper-button.html">
+<polymer-element name="verify-save-dialog"
+                 attributes="save"
+                 extends="paper-dialog"
+                 transition="paper-dialog-transition-top"
+                 backdrop autoCloseDisabled>
+  <template>
+    <paper-shadow z="3" fit></paper-shadow>
+    <div vertical layout fit>
+      <div class="block">
+        Would you like to save changes to your current project?
+      </div>
+      <div class="block"
+           horizontal layout>
+        <div flex></div>
+        <paper-button on-tap="{{doSave}}">save</paper-button>
+        <paper-button on-tap="{{doNotSave}}">don't save</paper-button>
+        <paper-button on-tap="{{doCancel}}">cancel</paper-button>
+      </div>
+    </div>
+    <style>
+      :host{
+        padding: 16px;
+        width: 500px;
+        height: 110px;
+      }
+      paper-button{
+        color: white;
+        background-color: #3f51b5;
+      }
+      .block{
+        margin: 16px;
+      }
+    </style>
+  </template>
+  <script src="verify-save-dialog.js"></script>
+</polymer-element>

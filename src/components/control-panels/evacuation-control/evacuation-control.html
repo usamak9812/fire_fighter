@@ -1,0 +1,222 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="/bower_components/core-header-panel/core-header-panel.html">
+<link rel="import"
+      href="/bower_components/core-toolbar/core-toolbar.html">
+<link rel="import"
+      href="/bower_components/paper-shadow/paper-shadow.html">
+<link rel="import"
+      href="/bower_components/paper-button/paper-button.html">
+<link rel="import"
+      href="/bower_components/paper-fab/paper-fab.html">
+<link rel="import"
+      href="/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import"
+      href="/bower_components/core-icons/core-icons.html">
+<link rel="import"
+      href="/bower_components/core-icons/social-icons.html">
+<link rel="import"
+      href="/bower_components/core-icon/core-icon.html">
+<link rel="import"
+      href="/components/custom-icons.html">
+<link rel="import"
+      href="evacuation-control-item.html">
+<polymer-element name="evacuation-control"
+                 attributes="inputMode
+                             interactMode
+                             view
+                             objects
+                             selected
+                             panels">
+  <template>
+    <div id="button-panel">
+      <template repeat="{{mode in fireModes}}">
+        <paper-fab id="{{mode}}"
+                   class="fire-mode {{{selected:mode==selected.object.mode}|tokenList}}"
+                   src="/assets/icon/fire/icon_{{mode}}.svg"
+                   mini
+                   on-tap="{{changeMode}}">
+        </paper-fab>
+      </template>
+    </div>
+    <div id="main-panel">
+      <div id="header-panel" layout vertical>
+        <div>Evacuation Control</div>
+        <div id="header-seperator"></div>
+        <div layout horizontal>
+          <span flex>Left</span>
+          <div class="horizontal-div"></div>
+          <span flex>Right</span>
+        </div>
+        <!--<paper-icon-button id="popout-button"-->
+        <!--                   icon="open-in-new"-->
+        <!--                   on-tap="{{openPopout}}">-->
+        <!--</paper-icon-button>-->
+      </div>
+      <div id="left" class="scroll-panel">
+        <div id="content-panel" layout vertical reverse>
+          <template repeat="{{object in objects}}">
+            <template if="{{object.type == 'evacuees' && !object.right}}">
+              <evacuation-control-item objectData="{{object}}"
+                                       objects="{{objects}}"
+                                       selectedItem="{{selectedItem}}"
+                                       selected="{{selected}}"
+                                       inputMode="{{inputMode}}"
+                                       interactMode="{{interactMode}}"
+                                       modeSelect="{{modeSelect}}"
+                                       side="left">
+              </evacuation-control-item>
+            </template>
+          </template>
+        </div>
+      </div>
+      <div id="right" class="scroll-panel">
+        <div id="content-panel" layout vertical reverse>
+          <template repeat="{{object in objects}}">
+            <template if="{{object.type == 'evacuees' && object.right}}">
+              <evacuation-control-item objectData="{{object}}"
+                                       objects="{{objects}}"
+                                       selectedItem="{{selectedItem}}"
+                                       selected="{{selected}}"
+                                       inputMode="{{inputMode}}"
+                                       interactMode="{{interactMode}}"
+                                       modeSelect="{{modeSelect}}"
+                                       side="right">
+              </evacuation-control-item>
+            </template>
+          </template>
+        </div>
+      </div>
+      <div id="top-gradient"></div>
+      <div id="bottom-gradient"></div>
+      <paper-shadow z="1" fit>
+      </paper-shadow>
+    </div>
+    <div id="toggle-button"
+         on-tap="{{togglePanel}}">
+      <core-icon icon="{{panels.evacuation.open ? 'chevron-right' : 'input'}}">
+      </core-icon>
+      <paper-ripple fit>
+      </paper-ripple>
+      <paper-shadow z="1" fit>
+      </paper-shadow>
+    </div>
+    <style>
+      :host{
+        transition: 0.25s;
+        -webkit-transform: translateX({{panels.evacuation.open ? "0": "360px"}});
+        position: absolute;
+        top: 56px;
+        right: 8px;
+        bottom: {{panels.lib.open ? "208px" : "8px"}};
+        width: 352px;
+      }
+      paper-shadow{
+        pointer-events: none;
+      }
+      #popout-button{
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+      #main-panel{
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 3;
+        background-color: #cdc;
+      }
+      #header-panel{
+        position: absolute;
+        font-size: 24px;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding-top: 1px;
+        text-align: center;
+        height: 63px;
+        line-height: 26px;
+        background-color: #686;
+        color: #cdc;
+      }
+      #header-seperator{
+        height: 1px;
+        margin: 3px 0;
+        background-color: #cdc;
+      }
+      .horizontal-div{
+        width: 1px;
+        margin: -4px 3px;
+        background-color: #cdc;
+      }
+      #left{
+        left: 0;
+        right: 176px;
+      }
+      #right{
+        right: 0;
+        left: 177px;
+      }
+      .scroll-panel{
+        position: absolute;
+        top: 64px;
+        bottom: 0;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        background-color: #686;
+      }
+      .scroll-panel::-webkit-scrollbar{
+        width: 10px;
+      }
+      .scroll-panel::-webkit-scrollbar-thumb{
+        background-color: #aba;
+        border: 3px solid #686;
+      }
+      #content-panel{
+        margin-top: 16px;
+        text-align: center;
+        width: 100%;
+      }
+      #bottom-gradient{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.25));
+      }
+      #top-gradient{
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        height: 8px;
+        background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0));
+      }
+      #toggle-button{
+        transition: 0.25s;
+        -webkit-transform: translate({{panels.obj.open || panels.vehicle.open ? "44px" : "0"}}, {{panels.evacuation.open ? "25px" : "48px"}});
+        z-index: 1;
+        position: absolute;
+        right: 352px;
+        top: 0;
+        padding: 8px;
+        background-color: #686;
+        color: #cdc
+      }
+      #button-panel{
+        position: absolute;
+        z-index: 3;
+        top: 10px;
+        left: 60px;
+      }
+      .selected{
+        background-color: #fe7;
+      }
+    </style>
+  </template>
+  <script src="evacuation-control.js"></script>
+</polymer-element>

@@ -1,0 +1,36 @@
+{
+  "manifest_version": 2,
+  "name": "ARFF Interactive Board",
+  "short_name": "AIB",
+  "description": "Training application for airport firefighters.",
+  "version": "1.0.10",
+  "icons": {
+    "16": "assets/icon/icon_16.png",
+    "128": "assets/icon/icon_128.png"
+  },
+  "permissions": [
+    "clipboardRead",
+    "storage",
+    "fileSystem",
+    "unlimitedStorage",
+    {
+      "fileSystem": [
+        "write",
+        "directory",
+        "retainEntries"
+      ]
+    },
+    "webview",
+    "app.window.fullscreen.overrideEsc",
+    "http://*/",
+    "https://*/"
+  ],
+  "sandbox": {
+    "pages": ["/components/control-panels/dialogs/map-import-dialog-sandbox.html"]
+  },
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  }
+}

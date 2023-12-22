@@ -1,0 +1,41 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="base-object.html">
+<polymer-element name="front-object"
+                 extends="base-object"
+                 attributes="objectData
+                             view"
+                 layout horizontal center center-justified>
+  <template>
+    <div horizontal layout center center-justified fit>
+      <div id="label"
+           style="background-image: url({{animUrl}});
+                  background-position: {{-frame * objectData.size.width}}px 0;"
+           draggable="false"
+           on-click="{{select}}">
+      </div>
+    </div>
+    <style>
+      :host{
+        top: -{{objectData.size.height / 2}}px;
+        left: -{{objectData.size.width / 2}}px;
+        width: {{objectData.size.width}}px;
+        height: {{objectData.size.height}}px;
+      }
+      #label{
+        transform: translateY({{objectData.offset ? "-40%" : "0"}}) scaleX({{objectData.scale * objectData.flip}}) scaleY({{objectData.scale}}) rotate({{objectData.rotation * objectData.flip}}rad);
+        transform-origin: 50% {{objectData.offset ? "90%" : "50%"}};
+        opacity: {{objectData.opacity}};
+        overflow: hidden;
+        width: {{objectData.size.width}}px;
+        height: {{objectData.size.height}}px;
+        background-size: {{objectData.size.width * objectData.frameCount}}px {{objectData.size.height}}px;
+        top: {{-objectData.size.width * 0.5}}px;
+        left: {{-objectData.size.height * 0.5}}px;
+        pointer-events: {{selected.object!=objectData && !interactMode ? 'all' : 'none'}};
+      }
+    </style>
+  </template>
+  <script src="front-object.js"></script>
+</polymer-element>

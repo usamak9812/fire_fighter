@@ -1,0 +1,241 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../paper-shadow/paper-shadow.html">
+
+</head><body><polymer-element name="dial-input" attributes="scale 
+                             segments 
+                             revolutionValue
+                             rangeMax 
+                             rangeMin 
+                             value
+                             loopBack
+                             segmentLock
+                             segmentLockTogglable
+                             decimalAccuracy
+                             hideValue
+                             fadeValue
+                             accentColor
+                             dialColor
+                             backColor
+                             largeSegmentInterval
+                             descriptor
+                             z">
+  
+  <template>
+  
+    <div id="segments">
+      
+    </div>
+    
+    <div id="dial">
+      
+      <div id="nub-box">
+        
+        <div id="nub"></div>
+        
+      </div>
+      
+      <paper-shadow z="1" fit="" style="border-radius: 99999px">
+      </paper-shadow>
+      
+    </div>
+    
+    <div id="value">
+    
+      {{value}}
+      
+      <div id="descriptor">
+        
+        {{descriptor}}
+        
+      </div>
+      
+      <paper-shadow z="1" fit="" style="border-radius: 99999px">
+      </paper-shadow>
+        
+    </div>
+    
+    <paper-shadow id="shadow" z="1" fit="" style="border-radius: 99999px">
+    </paper-shadow>
+    
+    <style>
+      
+      :host{
+        
+        -webkit-user-select: none;
+        
+        border-radius: 50%;
+        
+        display: inline-block;
+        
+        position: relative;
+        
+        width: {{scale * 128}}px;
+        
+        height: {{scale * 128}}px;
+        
+        background-color: {{backColor}};
+        
+        text-align: center;
+        
+      }
+      
+      #dial{
+        
+        position: absolute;
+        
+        top: {{scale * 16}}px;
+        
+        left: {{scale * 16}}px;
+        
+        bottom: {{scale * 16}}px;
+        
+        right: {{scale * 16}}px;
+        
+        background-color: {{dialColor}};
+        
+        border-radius: {{scale * 128}}px;
+        
+        text-align: center;
+        
+      }
+      
+      #nub-box{
+        
+        position: absolute;
+        
+        -webkit-transform: rotate({{angle}}deg);
+        
+        top: 0;
+        
+        left: 0;
+        
+        bottom: 0;
+        
+        right: 0;
+        
+      }
+      
+      #nub{
+        
+        display: inline-block;
+        
+        background-color: {{accentColor}};
+        
+        width: {{scale * 2}}px;
+        
+        height: {{scale * 16}}px;
+        
+      }
+      
+      #value{
+        
+        background-color: {{backColor}};
+        
+        position: absolute;
+        
+        top: {{scale * 32}}px;
+        
+        left: {{scale * 32}}px;
+        
+        bottom: {{scale * 32}}px;
+        
+        right: {{scale * 32}}px;
+        
+        font-size: {{scale * 16}}px;
+        
+        line-height: {{scale * 64}}px;
+        
+        border-radius: {{scale * 32}}px;
+        
+        color: {{accentColor}};
+        
+      }
+      
+      #descriptor{
+        
+        position: absolute;
+        
+        top: 0;
+        
+        left: 0;
+        
+        bottom: 0;
+        
+        right: 0;
+        
+        font-size: {{scale * 10}}px;
+        
+        line-height: {{scale * 96}}px;
+        
+        color: {{accentColor}};
+        
+      }
+      
+      #segments{
+        
+        position: absolute;
+        
+        top: 0;
+        
+        left: 0;
+        
+        bottom: 0;
+        
+        right: 0;
+        
+        overflow: hidden;
+        
+      }
+      
+      .segment-box{
+        
+        position: absolute;
+        
+        top: 0;
+        
+        left: 0;
+        
+        bottom: 0;
+        
+        right: 0;
+        
+        text-align: center;
+        
+      }
+      
+      .segment{
+        
+        display: inline-block;
+        
+        margin-top: {{scale * 2}}px;
+        
+        width: {{scale * 2}}px;
+        
+        height: {{scale * 12}}px;
+        
+        background-color: {{accentColor}};
+        
+      }
+      
+      .large-segment{
+        
+        display: inline-block;
+        
+        margin-top: {{scale * 2}}px;
+        
+        width: {{scale * 6}}px;
+        
+        height: {{scale * 12}}px;
+        
+        background-color: {{accentColor}};
+        
+      }
+      
+    </style>
+    
+  </template>
+  
+  <script src="dial-input.js"></script>
+  
+</polymer-element></body></html>

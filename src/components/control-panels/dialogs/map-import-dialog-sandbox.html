@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+       #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+       }
+       
+       #flex{
+         position: absolute;
+         top: 0;
+         left: 0;
+         right: 0;
+         display: flex;
+         flex-direction: row;
+         padding: 4px;
+       }
+       
+       #search{
+         width: 280px;
+       }
+       
+       button{
+         flex: 1;
+         background-color: #3f51b5;
+         color: white;
+       }
+       
+       button:active{
+         background-color: #4f61c5;
+       }
+       
+       input, button{
+         padding: 6px;
+         line-height: 17px;
+         font-size: 14px;
+         box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+         border: none;
+         border-radius: 3px;
+         outline: none;
+         margin: 4px;
+       }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="flex">
+      <input id="search"
+             type="text"
+             placeholder="Search the Map"
+             onClick="this.select();">
+      <button id="line" onclick="setMapType('ROADMAP')">LINE MAP</button>
+      <button id="satellite" onclick="setMapType('HYBRID')">SATELLITE</button>
+      <button id="labels" onclick="toggleLabels()">LABELS ON</button>
+    </div>
+    <script>
+      var map;
+      var search;
+      var labels = true;
+      window.addEventListener("message", function(e){
+        var center = new google.maps.LatLng(map.getCenter().lat(), map.getCenter().lng(), false);
+        console.log(center.lat(), center.lng(), map.getZoom())
+        if(e.data == "getMapLocation"){
+          e.source.postMessage({
+            lat: center.lat(),
+            lng: center.lng(),
+            zoom: map.getZoom(),
+            type: map.getMapTypeId(),
+            labels: labels
+          }, event.origin);
+        }
+      });
+      
+      function toggleLabels(){
+        labels = !labels;
+        document.querySelector("#labels").innerText = "LABELS " + (labels ? "ON" : "OFF");
+        map.set("styles", labelStyles[labels ? "on" : "off"]);
+      }
+      
+      function setMapType(type){
+        map.setMapTypeId(google.maps.MapTypeId[type]);
+      }
+      
+      function initMap() {
+        var searchOptions = {
+          types: ["airport"]
+        };
+        // search = new google.maps.places.Autocomplete(document.getElementById("search"), searchOptions);
+        search = new google.maps.places.SearchBox(document.getElementById("search"), searchOptions);
+        search.addListener("places_changed", function(){
+          console.log(search.getPlaces());
+          map.fitBounds(search.getPlaces()[0].geometry.viewport);
+        });
+        var center = new google.maps.LatLng(15, -100, false);
+        map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 2,
+          clickableIcons: false,
+          streetViewControl: false,
+          mapTypeControl: false,
+          tilt: 0,
+          center: center,
+          gestureHandling: "greedy"
+        });
+        
+        map.set("styles", labelStyles.on);
+        setMapType("HYBRID");
+      }
+      
+      var labelStyles = {
+        on: [
+          {
+            "featureType": "administrative",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "administrative",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "landscape",
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "landscape",
+            "elementType": "labels.text",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "poi",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "road",
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "transit",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "water",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          }
+        ],
+        off: [
+          {
+            "featureType": "administrative",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "administrative",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "landscape",
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "landscape",
+            "elementType": "labels.text",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "poi",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "road",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "road",
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "transit",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "water",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <script async
+            defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7zm-H6Plz6TtLZRWCEcz0Qx-IkshdtQ0&v=quarterly&libraries=places&callback=initMap">
+    </script>
+  </body>
+</html>

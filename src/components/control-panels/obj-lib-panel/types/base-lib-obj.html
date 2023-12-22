@@ -1,0 +1,79 @@
+<link rel="import"
+      href="../../../../bower_components/polymer/polymer.html">
+<link rel="import"
+      href="../../../../bower_components/core-icons/core-icons.html">
+<link rel="import"
+      href="../../../../bower_components/paper-icon-button/paper-icon-button.html">
+<polymer-element name="base-lib-obj"
+                 attributes="entry
+                             selected
+                             view
+                             objects
+                             inputMode"
+                 on-down="{{startDrag}}">
+  <template>
+    <img id="img"
+         src="{{entry.thumb||entry.graphic}}">
+    <paper-icon-button id="add"
+                       icon="add"
+                       on-tap="{{add}}">
+    </paper-icon-button>
+    <div id="name">
+      {{entry.name | stripUnderscores}}
+    </div>
+    <style>
+      :host{
+        text-align: left;
+        position: absolute;
+        width: 142px;
+        height: 122px;
+        text-align: center;
+        background: #686;
+        border-radius: 3px;
+        top: 4px;
+        border: 1px solid #575;
+        overflow: hidden;
+      }
+      paper-icon-button{
+        position: absolute;
+        fill: white;
+        color: #cdc;
+        border: 1px solid #575;
+        background-color: #686;
+        border-radius: 50px;
+      }
+      #add{
+        top: 4px;
+        right: 4px;
+      }
+      #edit{
+        top: 50px;
+        right: 4px;
+      }
+      #name{
+        position: absolute;
+        bottom: 8px;
+        left: 0;
+        right: 0;
+        height: 16px;
+        pointer-events: none;
+        font-size: 16px;
+        color: #cdc;
+        pointer-events: none;
+      }
+      img{
+        display: inline-block;
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 86px;
+        height: 86px;
+        border: 1px solid #575;
+        border-radius: 3px;
+        pointer-events: none;
+      }
+    </style>
+  </template>
+  <script src="base-lib-obj.js">
+  </script>
+</polymer-element>

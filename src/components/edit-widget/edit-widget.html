@@ -1,0 +1,805 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="/bower_components/paper-fab/paper-fab.html">
+<link rel="import"
+      href="/bower_components/paper-shadow/paper-shadow.html">
+<link rel="import"
+      href="/bower_components/paper-ripple/paper-ripple.html">
+<link rel="import"
+      href="/bower_components/core-icon/core-icon.html">
+<link rel="import"
+      href="/bower_components/core-icons/core-icons.html">
+<link rel="import"
+      href="/bower_components/core-icons/maps-icons.html">
+<link rel="import"
+      href="/bower_components/core-icons/notification-icons.html">
+<link rel="import"
+      href="/bower_components/core-icons/communication-icons.html">
+<link rel="import"
+      href="/bower_components/core-icons/device-icons.html">
+<link rel="import"
+      href="/bower_components/core-icons/image-icons.html">
+<link rel="import"
+      href="/bower_components/core-icons/social-icons.html">
+<link rel="import"
+      href="/bower_components/core-icons/av-icons.html">
+<link rel="import"
+      href="/components/custom-icons.html">
+<link rel="import"
+      href="/bower_components/core-input/core-input.html">
+<link rel="import"
+      href="/bower_components/vector-maker/vector-maker.html">
+<link rel="import"
+      href="/bower_components/color-selector/color-selector-button.html">
+<polymer-element name="edit-widget"
+                 attributes="selected
+                             view
+                             cursor
+                             warn
+                             leak
+                             inputMode
+                             rootFrame
+                             driveMode
+                             interactMode
+                             objects">
+  <template>
+    <vector-maker id="vector"
+                  pointA="{{selected.object.position}}"
+                  vector="{{rotateVector}}">
+    </vector-maker>
+    <div class="{{inputMode=='obj-edit' && interactMode && selected.object.turret.autoSpray ? 'visible' : ''}} autoSprayInfo"
+         layout
+         vertical
+         left-justified>
+      <div>1. Draw vehicle path</div>
+      <div>2. Set turret target</div>
+      <div>3. Select extinguishing agent</div>
+      <div>4. Toggle 'pause vehicle motion'</div>
+      <div id="autoSprayLine"></div>
+    </div>
+    <div id="rotate-box"
+         class="{{(inputMode=='obj-edit'||inputMode=='obj-rotate')&&((selected.object.type=='fire'&&!interactMode&&!selected.object.locked)||selected.object.type == 'image'||selected.object.type=='label'||selected.object.type=='vehicle'||selected.object.type=='interactive'||(selected.object.type!='label'&&!interactMode)) ? 'visible' : ''}}">
+      <div style="position: absolute;
+                  width: 2px;
+                  height: 120px;
+                  left: -1px;
+                  margin-top: -120px;
+                  background: red;"></div>
+      <div id="rotate"
+           title="Rotate Object"
+           class="option visible"
+           on-mousedown="{{start}}"
+           on-touchstart="{{start}}">
+        <core-icon icon="notification:sync">
+        </core-icon>
+        <paper-shadow z="1"
+                      fit>
+        </paper-shadow>
+      </div>
+    </div>
+    <div id="drive-forward"
+         title="Drive Path"
+         class="{{{'visible':inputMode=='obj-edit'&&selected.object.type=='vehicle'&&interactMode}|tokenList}} center"
+         on-mousedown="{{start}}"
+         on-touchstart="{{start}}">
+      <core-icon icon="settings-ethernet"></core-icon>
+    </div>
+    <div id="ring"
+         class="{{inputMode == 'obj-edit' && (!interactMode || (interactMode && (selected.object.type == 'vehicle'||selected.object.type == 'evacuees'||selected.object.type == 'image'||selected.object.type == 'label'||selected.object.type == 'interactive'))) ? 'visible' : ''}}">
+    </div>
+    <div id="name"
+         class="{{inputMode == 'obj-edit' && (!interactMode || (interactMode && (selected.object.type == 'vehicle'||selected.object.type == 'evacuees'||selected.object.type == 'image'||selected.object.type == 'label'||selected.object.type == 'interactive'))) ? 'visible' : ''}}">
+      <input id="name-input"
+             is="core-input"
+             spellcheck="false"
+             value="{{selected.object.name}}"
+             rows="1"
+             on-click="{{nameSelect}}">
+      <paper-shadow z="1"
+                    fit
+                    style="border-radius: 0;">
+      </paper-shadow>
+    </div>
+    <div id="move"
+         title="Position Object"
+         class="b {{(inputMode=='obj-edit' || inputMode=='obj-move') && (selected.object.type=='label' || selected.object.type=='vehicle' || selected.object.type == 'image' || selected.object.type=='interactive' || !interactMode) ? 'visible' : ''}} option"
+         on-mousedown="{{start}}"
+         on-touchstart="{{start}}">
+      <core-icon icon="open-with">
+      </core-icon>
+      <paper-shadow z="1"
+                    fit>
+      </paper-shadow>
+    </div>
+    <div id="scale"
+         title="Scale Object"
+         class="blb {{(inputMode=='obj-edit' || inputMode=='obj-scale') && (((selected.object.type=='clock' && !interactMode) || (selected.object.type=='structure' && !interactMode) || (selected.object.type=='fire' || selected.object.type=='warn' || selected.object.type=='leak') && !interactMode) || selected.object.type=='label' || selected.object.type == 'image' || selected.object.type=='interactive' || selected.object.type=='front') ? 'visible' : ''}} option"
+         on-mousedown="{{start}}"
+         on-touchstart="{{start}}">
+      <core-icon icon="flip-to-front">
+      </core-icon>
+      <paper-shadow z="1"
+                    fit>
+      </paper-shadow>
+    </div>
+    <div id="scale-vertical"
+         title="Vertical Stretch"
+         class="tll {{(inputMode=='obj-edit' || inputMode=='obj-scale-vertical') && ((selected.object.type=='structure' && !interactMode) || selected.object.type=='front') ? 'visible' : ''}} option"
+         on-mousedown="{{start}}"
+         on-touchstart="{{start}}">
+      <core-icon icon="swap-vert">
+      </core-icon>
+      <paper-shadow z="1"
+                    fit>
+      </paper-shadow>
+    </div>
+    <div id="scale-horizontal"
+         title="Horizontal Stretch"
+         class="tl {{(inputMode=='obj-edit' || inputMode=='obj-scale-horizontal') &&  ((selected.object.type=='structure' && !interactMode) || selected.object.type=='front') ? 'visible' : ''}} option"
+         on-mousedown="{{start}}"
+         on-touchstart="{{start}}">
+      <core-icon icon="swap-horiz">
+      </core-icon>
+      <paper-shadow z="1"
+                    fit>
+      </paper-shadow>
+    </div>
+    <div id="color"
+         title="Object Color"
+         class="trr {{(inputMode=='obj-edit' || inputMode=='obj-scale-horizontal') && (selected.object.type=='label' || (selected.object.type=='structure' && !interactMode)) ? 'visible' : ''}}">
+      <color-selector-button hsl="{{hsl}}"></color-selector-button>
+      <paper-shadow z="1"
+                    fit>
+      </paper-shadow>
+    </div>
+    <paper-fab id="horizontal-flip"
+               title="Flip Horizontally"
+               class="bll {{{'visible':(inputMode=='obj-edit'||inputMode=='obj-animation')&&selected.object.type=='front'}|tokenList}} option"
+               on-tap="{{toggleHorizontalFlip}}"
+               icon="{{selected.object.flip === 1 ? 'chevron-left' : 'chevron-right'}}"
+               mini>
+    </paper-fab>
+    <paper-fab id="parts"
+               title="Reposition Parts"
+               class="l {{inputMode=='obj-edit' && selected.object.type=='aircraft' && !interactMode ? 'visible' : ''}} option"
+               on-tap="{{openModifyPartsDialog}}"
+               icon="maps:flight"
+               mini>
+    </paper-fab>
+    <paper-fab id="nodes"
+               title="Reposition Mask Nodes"
+               class="l {{inputMode=='obj-edit' && selected.object.type=='mask' && !interactMode ? 'visible' : ''}} option"
+               on-tap="{{enableNodeEditMode}}"
+               icon="select-all"
+               mini>
+    </paper-fab>
+    <paper-fab id="close-nodes"
+               title="Reposition Mask Nodes"
+               class="c {{inputMode=='node-edit' ? 'visible' : ''}} option"
+               on-tap="{{disableNodeEditMode}}"
+               icon="close"
+               mini>
+    </paper-fab>
+    <paper-fab id="open-image"
+               title="Select Image"
+               class="l {{inputMode=='obj-edit' && selected.object.type=='image'? 'visible' : ''}} option"
+               on-tap="{{selectImage}}"
+               icon="folder"
+               mini>
+    </paper-fab>
+    <div id="spread"
+         title="Evacuee Dispersion Spread"
+         class="blb {{(inputMode=='obj-edit' || inputMode=='obj-spread') && selected.object.type=='evacuees' ? 'visible' : ''}} option"
+         on-mousedown="{{start}}"
+         on-touchstart="{{start}}">
+      <core-icon icon="communication:call-split">
+      </core-icon>
+      <paper-shadow z="1"
+                    fit>
+      </paper-shadow>
+    </div>
+    <div id="direction"
+         title="Evacuee Dispersion Direction"
+         class="bll {{(inputMode=='obj-edit' || inputMode=='obj-direction') && selected.object.type=='evacuees' ? 'visible' : ''}} option"
+         on-mousedown="{{start}}"
+         on-touchstart="{{start}}">
+      <core-icon icon="swap-horiz">
+      </core-icon>
+      <paper-shadow z="1"
+                    fit>
+      </paper-shadow>
+    </div>
+    <div id="wind"
+         title="Local Wind Strength"
+         class="l {{selected.object.type=='fire' && !selected.object.locked && !interactMode && (inputMode=='obj-edit' || inputMode=='obj-wind') ? 'visible' : ''}} option"
+         on-mousedown="{{start}}"
+         on-touchstart="{{start}}">
+      <core-icon src="/assets/icon/misc/fire_wind_speed.svg">
+      </core-icon>
+      <paper-shadow z="1"
+                    fit>
+      </paper-shadow>
+    </div>
+    <div id="opacity"
+         title="Opacity"
+         class="br {{(inputMode=='obj-edit' || inputMode=='obj-opacity') && !interactMode && (selected.object.type=='clock' || selected.object.type=='fire' || selected.object.type=='warn' || selected.object.type=='front') ? 'visible' : ''}} option"
+         on-mousedown="{{start}}"
+         on-touchstart="{{start}}">
+      <core-icon icon="image:gradient">
+      </core-icon>
+      <paper-shadow z="1"
+                    fit>
+      </paper-shadow>
+    </div>
+    <paper-fab id="plane-front"
+               title="Set side of plane for evcuee point"
+               class="br {{{'visible':inputMode=='obj-edit'&&selected.object.type=='evacuees'}|tokenList}} option"
+               on-tap="{{togglePlaneSide}}"
+               icon="{{selected.object.right ? 'chevron-left' : 'chevron-right'}}"
+               mini>
+    </paper-fab>
+    <paper-fab id="lock"
+               title="{{{'Alter Wind Effect':selected.object.type=='fire','Track Vehicle':selected.object.type=='vehicle'}|tokenList}}"
+               class="tl {{inputMode=='obj-edit'&&selected.object.locked!=null&&(!interactMode||selected.object.type!='fire') ? 'visible' : ''}} option"
+               on-tap="{{toggleLock}}"
+               icon="{{{'lock':selected.object.locked, 'lock-open':!selected.object.locked}|tokenList}}"
+               mini>
+    </paper-fab>
+    <paper-fab id="remove"
+               title="Remove Object"
+               class="tr {{inputMode=='obj-edit'&&(!interactMode||selected.object.type=='label'||selected.object.type == 'image'||selected.object.subtype=='casualty'||selected.object.subtype=='ladder'||selected.object.subtype=='triage') ? 'visible' : ''}} option"
+               on-tap="{{removeSelected}}"
+               icon="close"
+               mini>
+    </paper-fab>
+    <paper-fab id="autoSprayToggle"
+               title="Auto Spray"
+               class="tr {{{'visible':inputMode=='obj-edit'&&selected.object.turret&&interactMode}|tokenList}} option"
+               on-tap="{{toggleAuto}}"
+               style="background-color: #f00;"
+               icon="{{selected.object.turret.autoSpray ? 'device:brightness-low' : 'device:brightness-auto'}}"
+               mini>
+    </paper-fab>
+    <paper-fab id="sprayPowerToggle"
+               title="Spray Power"
+               class="brb {{{'visible':inputMode=='obj-edit'&&selected.object.turret&&interactMode}|tokenList}} option"
+               on-tap="{{togglePower}}"
+               style="background-color: #f00;"
+               icon="{{selected.object.turret.power ? 'reply' : 'reply-all'}}"
+               mini>
+    </paper-fab>
+    <div id="spray-target"
+         title="Spray Target"
+         class="blb {{{'visible':inputMode=='obj-edit'&&selected.object.turret&&interactMode}|tokenList}} option"
+         on-mousedown="{{start}}"
+         on-touchstart="{{start}}"
+         on-mouseup="{{clearTarget}}">
+      <core-icon icon="image:adjust">
+      </core-icon>
+      <paper-shadow z="1"
+                    fit>
+      </paper-shadow>
+    </div>
+    <div class="r {{inputMode=='obj-edit' && selected.object.type == 'clock' && !interactMode ? 'visible' : ''}}"
+         style="pointer-events: none;">
+      <paper-fab id="clockColorToggle"
+                 title="Color"
+                 icon="invert-colors"
+                 class="{{inputMode=='obj-edit'&&selected.object.type == 'clock' && !interactMode ? 'visible' : ''}} option"
+                 on-tap="{{toggleClockColorOptions}}"
+                 style="background-color: {{selected.object.color}};"
+                 mini>
+      </paper-fab>
+      <template repeat="{{color, i in clockColors}}">
+        <paper-fab id="{{color}}"
+                   class="option clock-color"
+                   on-tap="{{clockColorSelect}}"
+                   mini
+                   style="transform: translateX({{clockColorOptionsOpen ? (52 * (i + 1)) : 0}}px);
+                          opacity: {{clockColorOptionsOpen ? 1 : 0}};
+                          pointer-events: {{clockColorOptionsOpen ? 'all' : 'none'}};
+                          background-color: {{color}};">
+        </paper-fab>
+      </template>
+    </div>
+    <div class="trr {{inputMode=='obj-edit'&&selected.object.turret&&interactMode ? 'visible' : ''}}"
+         style="pointer-events: none;">
+      <paper-fab id="sprayTypeToggle"
+                 title="Spray Type"
+                 class="{{inputMode=='obj-edit'&&selected.object.turret&&interactMode ? 'visible' : ''}} option"
+                 on-tap="{{toggleSprayModeOptions}}"
+                 style="background-color: #0df;"
+                 src="/assets/icon/agent/icon_{{selected.object.turret.type || 'agent_off'}}.svg"
+                 mini>
+      </paper-fab>
+      <div id="spray-label"
+           class="{{inputMode=='obj-edit'&&selected.object.turret&&interactMode ? 'visible' : ''}} mini-label">
+        SPRAY
+      </div>
+      <template repeat="{{mode, i in sprayModes}}">
+        <paper-fab id="spray-{{mode}}"
+                   class="option spray-mode"
+                   on-tap="{{modeSelect}}"
+                   src="/assets/icon/agent/icon_{{mode}}.svg"
+                   mini
+                   style="transform: translateX({{sprayModeOptionsOpen ? (52 * (i + 1)) : 0}}px);
+                          opacity: {{sprayModeOptionsOpen ? 1 : 0}};
+                          pointer-events: {{sprayModeOptionsOpen ? 'all' : 'none'}};"
+                   selected?="{{selected.object.turret.type == mode}}">
+        </paper-fab>
+      </template>
+    </div>
+    <div class="tll {{inputMode=='obj-edit'&&selected.object.boom&&interactMode ? 'visible' : ''}}"
+         style="pointer-events: none;">
+      <paper-fab id="spikeTypeToggle"
+                 title="Penetrator Agent Type"
+                 class="{{inputMode=='obj-edit'&&selected.object.boom&&interactMode ? 'visible' : ''}} option"
+                 on-tap="{{toggleSpikeModeOptions}}"
+                 style="background-color: #0df;"
+                 src="/assets/icon/agent/icon_{{selected.object.boom.pMode || 'agent_off'}}.svg"
+                 mini>
+      </paper-fab>
+      <div id="spike-label"
+           class="{{inputMode=='obj-edit'&&selected.object.boom&&interactMode ? 'visible' : ''}} mini-label">
+        PENETRATOR
+      </div>
+      <template repeat="{{mode, i in spikeModes}}">
+        <paper-fab id="spike-{{mode}}"
+                   class="option spray-mode"
+                   on-tap="{{modeSelect}}"
+                   src="/assets/icon/agent/icon_{{mode}}.svg"
+                   style="transform: translateX({{spikeModeOptionsOpen ? (-52 * (i + 1)) : 0}}px);
+                          opacity: {{spikeModeOptionsOpen ? 1 : 0}};
+                          pointer-events: {{spikeModeOptionsOpen ? 'all' : 'none'}};"
+                   mini
+                   selected?="{{selected.object.boom.pMode == mode}}">
+        </paper-fab>
+      </template>
+    </div>
+    <paper-fab id="sprayWideToggle"
+               title="Spray Width"
+               class="brr {{{'visible':inputMode=='obj-edit'&&selected.object.turret&&interactMode}|tokenList}} option"
+               on-tap="{{toggleWide}}"
+               style="background-color: #f00;"
+               icon="{{selected.object.turret.wide ? 'more-vert' : 'filter-list'}}"
+               mini>
+    </paper-fab>
+    <paper-fab id="extendBoomToggle"
+               title="{{selected.object.boom.extended ? 'Retract Boom' : 'Extend Boom'}}"
+               class="bll {{{'visible':inputMode=='obj-edit'&&selected.object.boom&&interactMode}|tokenList}} option"
+               on-tap="{{toggleExtend}}"
+               style="background-color: #f00;"
+               icon="{{selected.object.boom.extended ? 'unfold-less' : 'unfold-more'}}"
+               mini>
+    </paper-fab>
+    <paper-fab id="modeToggle"
+               title="{{selected.object.active ? 'Stop evacuation' : 'Start evacuation'}}"
+               class="tl {{{'visible':inputMode=='obj-edit'&&selected.object.type=='evacuees'}|tokenList}} option"
+               on-tap="{{toggleEvacueesMode}}"
+               style="background-color: #f00;"
+               icon="{{{'block':selected.object.active, 'input':!selected.object.active}|tokenList}}"
+               mini>
+    </paper-fab>
+    <paper-fab id="slideExtendToggle"
+               title="{{selected.object.deployed ? 'Retract slide' : 'Deploy Slide'}}"
+               class="tll {{{'visible':inputMode=='obj-edit'&&selected.object.type=='evacuees'&&selected.object.subtype=='slide'}|tokenList}} option"
+               on-tap="{{toggleEvacueesSlide}}"
+               style="background-color: #f00;"
+               icon="{{selected.object.deployed ? 'unfold-less' : 'unfold-more'}}"
+               mini>
+    </paper-fab>
+    <div id="evacuee-count"
+         title="Evacuee Count"
+         class="r {{{'visible':(inputMode=='obj-edit'||inputMode=='obj-evacuee-count')&&selected.object.type=='evacuees'}|tokenList}} option"
+         on-mousedown="{{start}}"
+         on-touchstart="{{start}}">
+      <div style="min-width: 48px;
+                  min-height: 24px;
+                  margin: 0 -12px;
+                  line-height: 24px;
+                  font-size: 14px;
+                  text-align: center;
+                  pointer-events: none;">
+        {{(selected.object.infinite ? "∞" : selected.object.count)}}
+      </div>
+      <paper-shadow z="1"
+                    fit>
+      </paper-shadow>
+    </div>
+    <div id="animation"
+         title="Animation Speed"
+         class="r {{{'visible':(inputMode=='obj-edit'||inputMode=='obj-animation')&&selected.object.type=='front'}|tokenList}} option"
+         on-mousedown="{{start}}"
+         on-touchstart="{{start}}">
+      <core-icon icon="av:av-timer">
+      </core-icon>
+      <paper-shadow z="1"
+                    fit>
+      </paper-shadow>
+    </div>
+    <paper-fab id="mode"
+               title="Fire Mode"
+               class="r {{inputMode=='obj-edit'&&selected.object.type=='fire'&&!interactMode ? 'visible' : ''}} option"
+               on-tap="{{toggleFireModeOptions}}"
+               style="background-color: #fd0;"
+               src="/assets/icon/fire/icon_{{selected.object.mode || 'fire_fire'}}.svg"
+               mini>
+    </paper-fab>
+    <paper-fab id="plowAngleToggle"
+               title="Auto Spray"
+               class="r {{{'visible':inputMode=='obj-edit'&&selected.object.plow}|tokenList}} option"
+               on-tap="{{togglePlowRotation}}"
+               style="background-color: #f00;"
+               icon="device:screen-rotation"
+               mini>
+    </paper-fab>
+    <template repeat="{{mode, i in fireModes}}">
+      <paper-fab id="{{mode}}"
+                 class="r {{{'visible':inputMode=='obj-edit'&&selected.object.type=='fire'}|tokenList}} option fire-mode"
+                 on-tap="{{fireModeSelect}}"
+                 src="/assets/icon/fire/icon_{{mode}}.svg"
+                 style="transform: translateX({{fireModeOptionsOpen ? (52 * (i + 1)) : 0}}px);
+                        opacity: {{fireModeOptionsOpen ? 1 : 0}};
+                        pointer-events: {{fireModeOptionsOpen ? 'all' : 'none'}};"
+                 mini
+                 selected?="{{selected.object.mode == mode}}">
+      </paper-fab>
+    </template>
+    <div id="vert-arrows">
+      <core-icon id="vert-up"
+                 icon="expand-less">
+      </core-icon>
+      <core-icon id="vert-down"
+                 icon="expand-more">
+      </core-icon>
+    </div>
+    <div id="hori-arrows">
+      <core-icon id="hori-left"
+                 icon="chevron-left">
+      </core-icon>
+      <core-icon id="hori-right"
+                 icon="chevron-right">
+      </core-icon>
+    </div>
+    <style>
+      :host{
+        transition: opacity 0.125s;
+        pointer-events: {{inputMode != "obj-edit" ? "none" : "all"}};
+        opacity: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        -webkit-transform: translate({{rootFrame.left + (selected.object.position.x * view.scaledZoom)}}px,
+                                     {{rootFrame.top + (selected.object.position.y * view.scaledZoom)}}px);
+      }
+      paper-fab{
+      	position: absolute;
+      }
+      paper-shadow{
+        border-radius: 50px;
+        pointer-events: none;
+      }
+      core-icon{
+        pointer-events: none;
+      }
+      #ring{
+        opacity: 0;
+      }
+      #ring.visible{
+        opacity: 1;
+      }
+      #rotate-box.visible, #drive-forward.visible, #drive-reverse.visible, #name.visible{
+        opacity: 1;
+        pointer-events: all;
+      }
+      #drive-forward.center{
+        -webkit-transform: rotate({{selected.object.rotation}}rad);
+        top: -20px;
+        right: -20px;
+      }
+      .autoSprayInfo{
+        opacity: 0;
+        transition: opacity 0.125s;
+        position: absolute;
+        pointer-events: none;
+        text-align: left;
+        padding: 8px;
+        top: -85px;
+        left: 128px;
+        width: 224px;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+      }
+      .autoSprayInfo.visible{
+        opacity: 1;
+        pointer-events: none;
+      }
+      #autoSprayLine{
+        pointer-events: none;
+        position: absolute;
+        top: 18px;
+        left: -50px;
+        width: 50px;
+        height: 2px;
+        background: rgba(0, 0, 0, 0.5);
+      }
+      .option{
+        opacity: 0;
+        position: absolute;
+        transition: opacity 0.125s;
+        transition-delay: pointer-events 0.25s;
+        display: inline-block;
+        padding: 8px;
+        margin: 4px;
+        border-radius: 100px;
+        background: red;
+        color: white;
+        pointer-events: none;
+      }
+      .visible{
+        opacity: 1;
+        pointer-events: all;
+      }
+      .mini-label{
+        font-size:12px;
+        background: rgba(255, 255, 255, 0.75);
+        border-radius: 3px;
+        transition: opacity 0.125s;
+        opacity: 0;
+        padding: 0 2px;
+        pointer-events: none;
+        position: absolute;
+      }
+      .mini-label.visible{
+        opacity: 1;
+      }
+      #spray-label{
+        top: -8px;
+        left: 3px;
+      }
+      #spike-label{
+        top: -8px;
+        left: -15px;
+      }
+      #color{
+        margin: 4px;
+        opacity: 0;
+        transition: opacity 0.125s;
+        pointer-events: none;
+      }
+      #color.visible{
+        opacity: 1;
+        pointer-events: all;
+      }
+      #drive-buttons{
+        transition: opacity 0.125s;
+        opacity: 0;
+        pointer-events: none;
+        -webkit-transform: rotate({{selected.object.rotation}}rad);
+        position: absolute;
+        top: -155px;
+        left: -155px;
+        width: 310px;
+        height: 310px;
+      }
+      #drive-buttons.visible{
+        opacity: 1;
+      }
+      #drive-forward{
+        border-radius: 50px;
+        position: absolute;
+        pointer-events: none;
+        opacity: 0;
+        right: 0;
+        top: 135px;
+        padding: 8px;
+        background: rgba(0, 100, 256, 0.5);
+        color: white;
+      }
+      #drive-reverse{
+        border-radius: 50px;
+        position: absolute;
+        pointer-events: none;
+        opacity: 0;
+        left: 0;
+        top: 135px;
+        padding: 8px;
+        background: rgba(0, 100, 256, 0.5);
+        color: white;
+      }
+      #rotate-box{
+        transition: opacity 0.125s;
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+        -webkit-transform: rotate({{selected.object.rotation}}rad);
+        width: 1px;
+        height: 1px;
+      }
+      #rotate{
+        position: absolute;
+        pointer-events: inherit;
+        left: -24px;
+        top: -164px;
+      }
+      #rotate paper-shadow{
+        -webkit-transform: rotate({{-selected.object.rotation}}rad);
+      }
+      #ring{
+        transition: opacity 0.125s;
+        opacity: 0;
+        position: absolute;
+        top: -94px;
+        left: -94px;
+        width: 184px;
+        height: 184px;
+        border: 2px solid red;
+        border-radius: 120px;
+        pointer-events: none;
+      }
+      .tr{
+        position: absolute;
+        top: -90px;
+        left: 42px;
+      }
+      .trr{
+        position: absolute;
+        top: -42px;
+        left: 66px;
+      }
+      .r{
+        position: absolute;
+        top: -24px;
+        left: 68px;
+      }
+      .br{
+        position: absolute;
+        top: 42px;
+        left: 42px;
+      }
+      .brr{
+        position: absolute;
+        top: 11px;
+        left: 61px;
+      }
+      .brb{
+        position: absolute;
+        top: 52px;
+        left: 27px;
+      }
+      .b{
+        position: absolute;
+        top: 68px;
+        left: -24px;
+      }
+      .bl{
+        position: absolute;
+        top: 42px;
+        left: -90px;
+      }
+      .bll{
+        position: absolute;
+        top: 11px;
+        left: -109px;
+      }
+      .blb{
+        position: absolute;
+        top: 52px;
+        left: -75px;
+      }
+      .l{
+        position: absolute;
+        top: -24px;
+        left: -116px;
+      }
+      .tl{
+        position: absolute;
+        top: -90px;
+        left: -90px;
+      }
+      .tll{
+        position: absolute;
+        top: -42px;
+        left: -114px;
+      }
+      .c{
+        position: absolute;
+        top: -24px;
+        left: -24px;
+      }
+      .fire-mode{
+        background-color: #fd0;
+        pointer-events: none;
+        transition: 0.25s;
+        opacity: 0;
+      }
+      .fire-mode[selected]{
+        background-color: #fe7;
+      }
+      .spray-mode{
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #0df;
+        pointer-events: none;
+        transition: 0.25s;
+        opacity: 0;
+      }
+      .spray-mode[selected]{
+        background-color: #bff;
+      }
+      .clock-color{
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        transition: 0.25s;
+        opacity: 0;
+      }
+      #name{
+        transition: opacity 0.125s;
+        opacity: 0;
+        position: absolute;
+        padding: 4px 4px 5px 4px;
+        top: -94px;
+        left: -54px;
+        background-color: red;
+      }
+      #name-input{
+        text-align: center;
+        width: 100px;
+        font-size: 16px;
+        color: white;
+      }
+      #vert-arrows{
+        pointer-events: none;
+        opacity: 0;
+        transition opacity 0.125s;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 0;
+        height: 0;
+      }
+      #vert-up{
+        color: red;
+        position: absolute;
+        left: -12px;
+        top: -48px;
+      }
+      #vert-down{
+        color: red;
+        position: absolute;
+        left: -12px;
+        top: 24px;
+      }
+      #hori-arrows{
+        pointer-events: none;
+        opacity: 0;
+        transition opacity 0.125s;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 0;
+        height: 0;
+      }
+      #hori-left{
+        color: red;
+        position: absolute;
+        left: -48px;
+        top: -12px;
+      }
+      #hori-right{
+        color: red;
+        position: absolute;
+        left: 24px;
+        top: -12px;
+      }
+    </style>
+  </template>
+  <script src="edit-widget.js">
+  </script>
+</polymer-element>

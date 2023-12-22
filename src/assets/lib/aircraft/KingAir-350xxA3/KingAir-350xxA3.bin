@@ -1,0 +1,83 @@
+{
+  name: "KingAir-350xxA3",
+  graphic: "assets/lib/aircraft/KingAir-350xxA3/KingAir-350xxA3.svg",
+  parts: [
+    {
+      name: "KingAir-350xxA3_engine_L_1",
+      offset: {
+        x: 114.30000000000004,
+        y: 106.90000000000008
+      }
+    },
+    {
+      name: "KingAir-350xxA3_engine_R_2",
+      offset: {
+        x: 131.19999999999996,
+        y: 106.99999999999994
+      }
+    },
+    {
+      name: "KingAir-350xxA3_tail_L",
+      offset: {
+        x: 118.00000000000004,
+        y: 144.89999999999992
+      }
+    },
+    {
+      name: "KingAir-350xxA3_tail_R",
+      offset: {
+        x: 127.70000000000013,
+        y: 144.89999999999998
+      }
+    },
+    {
+      name: "KingAir-350xxA3_wing_L_1",
+      offset: {
+        x: 116.29999999999995,
+        y: 117.2
+      }
+    },
+    {
+      name: "KingAir-350xxA3_wing_L_2",
+      offset: {
+        x: 97.99999999999983,
+        y: 117.10000000000002
+      }
+    },
+    {
+      name: "KingAir-350xxA3_wing_R_1",
+      offset: {
+        x: 129.70000000000005,
+        y: 117.30000000000005
+      }
+    },
+    {
+      name: "KingAir-350xxA3_wing_R_2",
+      offset: {
+        x: 138.20000000000016,
+        y: 117.19999999999992
+      }
+    },
+    {
+      name: "KingAir-350xxA3_fuselage_1",
+      offset: {
+        x: 125.1000000000001,
+        y: 102.90000000000003
+      }
+    },
+    {
+      name: "KingAir-350xxA3_fuselage_2",
+      offset: {
+        x: 125.10000000000002,
+        y: 117.59999999999991
+      }
+    },
+    {
+      name: "KingAir-350xxA3_fuselage_3",
+      offset: {
+        x: 125.10000000000002,
+        y: 127.99999999999994
+      }
+    },
+  ]
+}

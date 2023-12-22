@@ -1,0 +1,55 @@
+<link rel="import"
+    href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="base-object.html">
+<polymer-element name="mask-object"
+                 attributes="selected
+                             objectData
+                             cursor
+                             view
+                             wind
+                             interactMode
+                             inputMode
+                             cursor">
+  <template>
+    <div horizontal
+         layout
+         center
+         center-justified
+         fit>
+      <svg viewBox="0 0 1920 1920" version="1.1">
+        <defs>
+          <pattern id="bg" patternUnits="userSpaceOnUse" width="1920" height="1920">
+            <image xlink:href="{{view.background.url}}"
+                   image-rendering="optimizeSpeed"
+                   width="1920" height="1920"/>
+          </pattern>
+        </defs>
+        <polygon id="mask"
+                 points="{{getPolygonPoints(objectData.update, objectData.position.x, objectData.position.y)}}"
+                 fill="url(#bg)"
+                 style="pointer-events: {{selected.object!=objectData && !interactMode ? 'all' : 'none'}};
+                        stroke: red;
+                        stroke-width: {{inputMode=='node-edit' ? (2 / view.scaledZoom) + 'px' : '0'}};"
+                 on-tap="{{select}}"/>
+      </svg>
+    </div>
+    <style>
+      :host{
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+      }
+      svg{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1920px;
+        height: 1920px;
+      }
+    </style>
+  </template>
+  <script src="mask-object.js">
+  </script>
+</polymer-element>

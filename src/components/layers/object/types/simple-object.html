@@ -1,0 +1,27 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="base-object.html">
+<polymer-element name="simple-object"
+                 extends="base-object"
+                 attributes="objectData
+                             view"
+                 layout horizontal center center-justified>
+  <template>
+    <img style="-webkit-transform: rotate({{objectData.rotation}}rad) scale({{objectData.scale}});
+                pointer-events: {{selected.object!=objectData && !interactMode ? 'all' : 'none'}};
+                opacity: {{objectData.opacity}};"
+         src="{{objectData.graphic}}"
+         on-click="{{select}}"
+         draggable="false">
+    <style>
+      :host{
+        width: 256px;
+        height: 256px;
+        top: -128px;
+        left: -128px;
+      }
+    </style>
+  </template>
+  <script src="simple-object.js"></script>
+</polymer-element

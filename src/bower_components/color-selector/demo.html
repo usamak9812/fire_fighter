@@ -1,0 +1,48 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="color-selector.html">
+
+<link rel="import" href="color-selector-button.html">
+
+</head><body unresolved=""><polymer-element name="color-selector-demo">
+
+  <template>
+
+    <div>hex: {{hex}}</div>
+
+    <div>h: {{hsl.h}}</div>
+
+    <div>s: {{hsl.s}}</div>
+
+    <div>l: {{hsl.l}}</div>
+
+    <div>r: {{rgb.r}}</div>
+
+    <div>g: {{rgb.g}}</div>
+
+    <div>b: {{rgb.b}}</div>
+
+    <color-selector id="color" hsl="{{hsl}}" hex="{{hex}}">
+    </color-selector>
+
+    <color-selector-button rgb="{{rgb}}" hsl="{{hsl}}">
+    </color-selector-button>
+
+  </template>
+
+  <script src="demo.html.0.js"></script>
+
+</polymer-element>
+
+
+
+
+
+
+
+
+  <color-selector-demo></color-selector-demo>
+
+
+
+</body></html>

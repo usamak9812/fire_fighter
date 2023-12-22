@@ -1,0 +1,48 @@
+{
+  name: "B-206xxA3",
+  graphic: "assets/lib/aircraft/B-206xxA3/B-206xxA3.svg",
+  parts: [
+    {
+      name: "B-206xxA3_skid_L",
+      offset: {
+        x: 123.90000000000023,
+        y: 114.60000000000076
+      }
+    },
+    {
+      name: "B-206xxA3_skid_R",
+      offset: {
+        x: 129.8999999999999,
+        y: 114.60000000000076
+      }
+    },
+    {
+      name: "B-206xxA3_fuselage_1",
+      offset: {
+        x: 124.69999999999982,
+        y: 110.70000000000006
+      }
+    },
+    {
+      name: "B-206xxA3_fuselage_2",
+      offset: {
+        x: 124.80000000000007,
+        y: 118.40000000000009
+      }
+    },
+    {
+      name: "B-206xxA3_fuselage_3",
+      offset: {
+        x: 123.89999999999995,
+        y: 133.0000000000001
+      }
+    },
+    {
+      name: "B-206xxA3_top_rotter_blades",
+      offset: {
+        x: 108.99999999999999,
+        y: 103.29999999999994
+      }
+    },
+  ]
+}

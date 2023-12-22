@@ -1,0 +1,26 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="fire-truck-object.html">
+<polymer-element name="ARFF-truck-object"
+                 extends="fire-truck-object">
+  <template>
+    <shadow></shadow>
+    <div vertical layout center center-justified fit>
+      <div id="turret"
+           style="background-image: url({{objectData.turret.graphic}});">
+      </div>
+    </div>
+    <style>
+      #turret{
+        transform: rotate({{objectData.rotation}}rad)
+                           translate({{objectData.turret.position.x}}px, {{objectData.turret.position.y}}px)
+                           rotate(90deg)
+                           rotate({{objectData.turret.angle.current}}rad);
+        width: 12px;
+        height: 12px;
+      }
+    </style>
+  </template>
+  <script src="ARFF-truck-object.js"></script>
+</polymer-element>

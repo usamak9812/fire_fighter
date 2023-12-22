@@ -1,0 +1,198 @@
+<link rel="import"
+      href="../../../bower_components/polymer/polymer.html">
+<link rel="import"
+      href="../../../bower_components/paper-fab/paper-fab.html">
+<link rel="import"
+      href="../../../bower_components/core-icons/core-icons.html">
+<link rel="import"
+      href="../../../bower_components/core-icons/communication-icons.html">
+<link rel="import"
+      href="../../../bower_components/core-icons/av-icons.html">
+<link rel="import"
+      href="../../../bower_components/core-icons/device-icons.html">
+<link rel="import"
+      href="../../file-operations-controller/file-operations-controller.html">
+<polymer-element name="control-buttons"
+                 attributes="session
+                             inputMode
+                             canvas
+                             file
+                             undo">
+  <template>
+    <div horizontal layout>
+      <div id="file-options-box">
+        <paper-fab id="file-options"
+                   title="{{fileOptionsOpen == 0 ? 'Open File Options' : 'Close File Options'}}"
+                   icon="{{fileOptionsOpen == 0 ? 'description' : 'close'}}"
+                   on-tap="{{toggleFileOptions}}"
+                   mini>
+        </paper-fab>
+        <template repeat="{{option, i in fileOptions}}">
+          <div class="file-option"
+               style="-webkit-transform: translateY({{(1 + i) * 48 * fileOptionsOpen}}px);"
+               horizontal layout center>
+            <paper-fab id="{{option.name}}"
+                       icon="{{option.icon}}"
+                       on-down="{{fileAction}}"
+                       mini>
+            </paper-fab>
+            <div id="{{option.name}}"
+                 class="label"
+                 on-down="{{fileAction}}">
+              {{option.name}}
+            </div>
+          </div>
+        </template>
+      </div>
+      <paper-fab id="settings"
+                 title="Settings"
+                 icon="settings"
+                 on-tap="{{settingsAct}}"
+                 mini>
+      </paper-fab>
+      <paper-fab id="undo"
+                 title="Undo"
+                 icon="undo"
+                 on-tap="{{doUndo}}"
+                 mini>
+      </paper-fab>
+      <paper-fab id="redo"
+                 title="Redo"
+                 icon="redo"
+                 on-tap="{{doRedo}}"
+                 mini>
+      </paper-fab>
+      <paper-fab id="fullscreen"
+                 title="Toggle Fullscreen"
+                 on-tap="{{toggleFullscreen}}"
+                 icon="{{fullscreen ? 'fullscreen-exit' : 'fullscreen'}}"
+                 mini>
+      </paper-fab>
+      <paper-fab id="tags"
+                 title="Toggle Vehicle Name Tags"
+                 on-tap="{{toggleTags}}"
+                 icon="communication:location-on"
+                 style="color: {{session.view.namesVisible ? '#5f5' : 'white'}};"
+                 mini>
+      </paper-fab>
+      <paper-fab id="paths"
+                 title="Toggle Vehicle Paths"
+                 on-tap="{{togglePaths}}"
+                 icon="control:tracks"
+                 style="color: {{session.view.pathsVisible ? '#5f5' : 'white'}};"
+                 mini>
+      </paper-fab>
+      <paper-fab id="warn-zones"
+                 title="Toggle Display of Hot/Warm Zones in Play/Presentation Mode"
+                 on-tap="{{toggleWarnZone}}"
+                 style="display: {{session.warnZone.exists ? 'block' : 'none'}}; color: {{session.warnZone.visible ? '#5f5' : 'white'}};"
+                 icon="device:location-searching"
+                 mini>
+      </paper-fab>
+      <paper-fab id="fuel-leak"
+                 title="Toggle Display of Fuel Leaks in Play/Presentation Mode"
+                 on-tap="{{toggleFuelLeak}}"
+                 style="display: {{session.fuelLeak.exists ? 'block' : 'none'}}; color: {{session.fuelLeak.visible ? '#5f5' : 'white'}};"
+                 icon="control:leak"
+                 mini>
+      </paper-fab>
+      <paper-fab id="agent-control"
+                 title="Disable agent spray on all vehicles"
+                 on-tap="{{disableAllAgents}}"
+                 icon="control:disable-all-agent"
+                 mini>
+      </paper-fab>
+      <paper-fab id="fire-control"
+                 title="Disable all fires"
+                 on-tap="{{disableAllFires}}"
+                 icon="control:disable-all-fire"
+                 mini>
+      </paper-fab>
+      <paper-fab id="construction"
+                 title="Construction Mode"
+                 on-tap="{{setInteract}}"
+                 icon="control:construction"
+                 style="background-color: {{session.interactMode ? '#668' : '#88a'}};
+                        color: {{session.interactMode ? 'white' : '#5f5'}};"
+                 mini>
+      </paper-fab>
+      <paper-fab id="interact"
+                 title="Play/Presentation Mode"
+                 on-tap="{{setInteract}}"
+                 style="background-color: {{session.interactMode ? '#88a' : '#668'}};
+                        color: {{session.interactMode ? '#5f5' : 'white'}};"
+                 icon="av:play-arrow"
+                 mini>
+      </paper-fab>
+      <div style="position: relative;">
+        <paper-fab id="edit"
+                   title="Pause Vehicle Motion"
+                   on-tap="{{toggleMotion}}"
+                   icon="av:pause"
+                   style="color: {{session.view.motionFreeze && session.interactMode ? 'red' : 'white'}};"
+                   mini>
+        </paper-fab>
+        <div id="motion-pause-indicator">▲</div>
+      </div>
+      <!--<div id="pauseIndicatorText">You are in pause/construction mode</div>-->
+    </div>
+    <style>
+      :host{
+        position: absolute;
+        top: 0;
+        left: 8px;
+      }
+      paper-fab{
+        -webkit-transition: 0.25s;
+        background-color: #668;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        margin: 8px 4px;
+        color: white;
+      }
+      #motion-pause-indicator{
+        transition: opacity 0.5s;
+        opacity: 0;
+        text-align: center;
+        position: absolute;
+        top: 40px;
+        left: 0;
+        right: 0;
+        color: red;
+        font-size: 24px;
+      }
+      #file-options-box{
+        position: relative;
+      }
+      #pauseIndicatorText{
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 5px;
+        padding: 4px;
+        transition: opacity 0.125s;
+        opacity: 1;
+        font-size: 14px;
+        margin: 52px 0 0 -88px;
+        color: white;
+      }
+      .file-option{
+        transition: 0.25s;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: {{fileOptionsOpen}};
+        pointer-events: {{fileOptionsOpen == 1 ? "all" : "none"}};
+        z-index: 10;
+      }
+      .label{
+        text-align: left;
+        padding: 4px 8px;
+        margin-left: 8px;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 3px;
+        color: white;
+        white-space: nowrap;
+        font-size: 16px;
+      }
+    </style>
+  </template>
+  <script src="control-buttons.js"></script>
+</polymer-element>

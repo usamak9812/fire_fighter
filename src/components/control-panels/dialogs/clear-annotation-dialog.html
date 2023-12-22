@@ -1,0 +1,67 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="dialog-base.html">
+<link rel="import"
+      href="/bower_components/paper-dialog/paper-dialog-transition.html">
+<link rel="import"
+      href="/bower_components/paper-shadow/paper-shadow.html">
+<link rel="import"
+      href="/bower_components/paper-button/paper-button.html">
+<polymer-element name="clear-annotation-dialog"
+                 extends="dialog-base"
+                 attributes="z
+                             canvas"
+                 transition="paper-dialog-transition-bottom">
+  <template>
+    <paper-shadow z="3" fit></paper-shadow>
+    <div class="content">
+      <span id="title">Clear All Annotations</span>
+      <span id="text">Are you sure you want to clear all annotations in this project?</span>
+      <paper-button id="yes"
+                    on-tap="{{verifyYes}}">
+        Yes
+      </paper-button>
+      <paper-button id="no"
+                    on-tap="{{verifyNo}}">
+        No
+      </paper-button>
+    </div>
+    <style>
+      :host{
+        display: inline-block;
+        width: 350px;
+        height: 200px;
+        margin-top: 20vh;
+        border-radius: 3px;
+      }
+      .content{
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin: 16px;
+      }
+      #title{
+        display: block;
+        font-weight: 300;
+        font-size: 24px;
+      }
+      #text{
+        display: block;
+        margin-left: 16px;
+        margin-right: 16px;
+        margin-top: 16px;
+      }
+      paper-button{
+        width: 120px;
+        margin: 16px;
+        border-radius: 3px;
+        background: #3f51b5;
+        color: white;
+      }
+    </style>
+  </template>
+  <script src="clear-annotation-dialog.js"></script>
+</polymer-element>

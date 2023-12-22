@@ -1,0 +1,19 @@
+{
+  "name": "vector-maker",
+  "version": "0.0.1",
+  "homepage": "https://github.com/brycethorup/vector-maker",
+  "authors": [
+    "Bryce Thorup"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#latest"
+  }
+}

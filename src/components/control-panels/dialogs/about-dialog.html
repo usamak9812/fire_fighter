@@ -1,0 +1,104 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="dialog-base.html">
+<link rel="import"
+      href="/bower_components/paper-dialog/paper-dialog-transition.html">
+<link rel="import"
+      href="/bower_components/paper-shadow/paper-shadow.html">
+<link rel="import"
+      href="/bower_components/paper-button/paper-button.html">
+<polymer-element name="about-dialog"
+                 extends="dialog-base"
+                 transition="core-transition-center">
+  <template>
+    <paper-shadow z="3" fit></paper-shadow>
+    <div vertical layout fit>
+      <div vertical layout center>
+        <img id="main-logo" style="width: 288px; margin-top: 20px;" src="/assets/icon/icon.svg">
+        <div class="spaced" style="font-size: 56px; margin-bottom: 0;">ARFF Interactive Board</div>
+        <div style="font-size: 16px; margin-bottom: 8px;">{{versionNumber}}</div>
+      </div>
+      <div class="divider"></div>
+      <div horizontal layout around-justified center flex>
+        <div vertical layout center>
+          <div class="title">Published By</div>
+          <div id="alert3" class="logo"></div>
+          <a class="spaced"
+             href="http://alert3.org"
+             target="_blank">
+            http://alert3.org
+          </a>
+        </div>
+        <div vertical layout center>
+          <div class="title">Developed By</div>
+          <div id="thor" class="logo"></div>
+          <a class="spaced" 
+             href="http://thormedia.com"
+             target="_blank">
+            http://thormedia.com
+          </a>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="spaced" horizontal layout center-justified>
+        <paper-button on-tap="{{close}}">done</paper-button>
+      </div>
+    </div>
+    <style>
+      :host{
+        padding: 16px;
+        width: 656px;
+        height: 691px;
+      }
+      paper-shadow{
+        pointer-events: none;
+      }
+      paper-button{
+        color: white;
+        background: #3f51b5;
+      }
+      #main-logo{
+        max-height: 288px;
+      }
+      .logo{
+        width: 200px;
+        height: 100px;
+        background: white;
+      }
+      #alert3{
+        background-image: url(/assets/alert_3_logo.svg);
+      }
+      #thor{
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url(/assets/thor_logo.svg);
+      }
+      .divider{
+        height: 1px;
+        background: lightgray;
+      }
+      .spaced{
+        margin: 16px;
+      }
+      .title{
+        text-align: center;
+        font-size: 24px;
+        margin: 12px;
+      }
+      .license-button{
+        color: blue;
+        margin: 16px;
+        text-align: center;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+      #content{
+        overflow-x: hidden;
+        background: lightgray;
+      }
+    </style>
+  </template>
+  <script src="about-dialog.js"></script>
+</polymer-element>

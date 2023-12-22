@@ -1,0 +1,43 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="base-object.html">
+<polymer-element name="image-object"
+                 extends="base-object"
+                 attributes="objectData
+                             view"
+                 layout horizontal center center-justified>
+  <template>
+    <!--<div id="image"-->
+    <!--     on-click="{{select}}"-->
+    <!--     on-touchStart="{{select}}"-->
+    <!--     draggable="false">-->
+    <!--</div>-->
+    <div>
+      <img style="width: 100%;
+                  -webkit-transform: rotate({{objectData.rotation}}rad)
+                                     scale({{objectData.scale}});
+                  pointer-events: {{selected.object!=objectData ? 'all' : 'none'}}"
+           src="{{objectData.graphic}}"
+           on-click="{{select}}"
+           draggable="false">
+    </div>
+    <style>
+      :host{
+        width: 256px;
+        height: 256px;
+        top: -128px;
+        left: -128px;
+      }
+      /*#image{*/
+      /*  -webkit-transform: rotate({{objectData.rotation}}rad);*/
+      /*  pointer-events: {{{'none':selected.object==objectData,'all':selected.object!=objectData}|tokenList}};*/
+      /*  background-image: url({{objectData.graphic}});*/
+      /*  background-size: contiain;*/
+      /*  background-repeat: no-repeat;*/
+      /*  background-position: center;*/
+      /*}*/
+    </style>
+  </template>
+  <script src="image-object.js"></script>
+</polymer-element

@@ -1,0 +1,34 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="base-object.html">
+<polymer-element name="aircraft-object"
+                 extends="base-object">
+  <template>
+    <div style="-webkit-transform: rotate({{objectData.rotation}}rad);"
+         fit>
+      <template repeat="{{part in objectData.parts}}">
+        <div id="{{part.name}}"
+             style="transform: translate(-50%, -50%)
+                               translate({{part.offset.x}}px, {{part.offset.y}}px)
+                               rotate({{part.rotation}}rad);
+                    position: absolute;
+                    pointer-events: {{selected.object!=objectData && !interactMode ? 'all' : 'none'}};">
+          <img src="/assets/lib/aircraft/{{objectData.subType}}/{{part.name}}.svg"
+               on-click="{{select}}"
+               draggable="false">
+        </div>
+      </template>
+    </div>
+    <style>
+      :host{
+        top: -128px;
+        left: -128px;
+        width: 256px;
+        height: 256px;
+      }
+    </style>
+  </template>
+  <script src="aircraft-object.js">
+  </script>
+</polymer-element>

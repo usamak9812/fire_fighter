@@ -1,0 +1,217 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="dialog-base.html">
+<link rel="import"
+      href="/bower_components/paper-dialog/paper-dialog-transition.html">
+<link rel="import"
+      href="/bower_components/paper-shadow/paper-shadow.html">
+<link rel="import"
+      href="/bower_components/paper-ripple/paper-ripple.html">
+<link rel="import"
+      href="/bower_components/paper-button/paper-button.html">
+<link rel="import"
+      href="/bower_components/core-ajax/core-ajax.html">
+<link rel="import"
+      href="/bower_components/core-icon/core-icon.html">
+<link rel="import"
+      href="/bower_components/core-icons/core-icons.html">
+<link rel="import"
+      href="/bower_components/paper-fab/paper-fab.html">
+<polymer-element name="background-select-dialog"
+                 extends="dialog-base"
+                 attributes="settingsDialog
+                             mapImportDialog
+                             file
+                             view"
+                 transition="paper-dialog-transition-bottom"
+                 vertical layout>
+  <template>
+    <core-ajax id="fetcher"
+               handleAs="blob"
+               on-core-response="{{handleFetch}}">
+    </core-ajax>
+    <paper-shadow z="3" fit></paper-shadow>
+    <div id="main" vertical layout fit>
+      <div horizontal layout center>
+        <!--<div class="title spaced">Map Select</div>-->
+        <div flex></div>
+        <paper-button on-tap="{{openMap}}">
+          import from satellite
+        </paper-button>
+        <paper-button on-tap="{{openImage}}">
+          import from file
+        </paper-button>
+        <paper-button on-tap="{{pasteImage}}">
+          paste image
+        </paper-button>
+        <paper-button on-tap="{{closeToParent}}">
+          close
+        </paper-button>
+      </div>
+      <div class="spaced"
+           id="list"
+           on-dragover="{{over}}"
+           on-drop="{{drop}}"
+           horizontal layout wrap flex>
+        <template repeat="{{map in maps}}">
+          <div class="item"
+               on-tap="{{select}}"
+               style="background-image: url({{map.thumb || map.url}});">
+            <paper-ripple id="{{map.url}}" fit></paper-ripple>
+            <div class="selected-indicator"
+                 style="opacity: {{view.background.url == map.url ? '1' : '0'}}"
+                 verical layout center center-justified>
+              <paper-shadow style="border-radius: 50%;" z="1" fit></paper-shadow>
+              <core-icon icon="check" style="margin: 8px;"></core-icon>
+            </div>
+            <div class="item-label">{{map.title}}</div>
+            <template if="{{!map.permanent}}">
+              <paper-fab id="{{map.url}}"
+                         icon="remove"
+                         style="margin: 8px;"
+                         on-tap="{{removeVerify}}"
+                         mini>
+              </paper-fab>
+            </template>
+          </div>
+        </template>
+      </div>
+      <div id="delete-verify-overlay"
+           hidden?="{{!removeItem}}"
+           fit layout vertical center center-justified>
+        <div id="delete-verify-box" layout vertical>
+          <paper-shadow z="3" style="border-radius: 3px;" fit></paper-shadow>
+          <div class="title spaced">Remove</div>
+          <div class="spaced">Are you sure you want to remove this background?</div>
+          <div class="spaced" layout horizontal end-justified>
+            <paper-button on-tap="{{removeCancel}}">cancel</paper-button>
+            <paper-button on-tap="{{removeCustom}}">delete</paper-button>
+          </div>
+        </div>
+      </div>
+      <div id="name-box-overlay"
+           hidden?="{{!nameMap}}"
+           fit layout vertical center center-justified>
+        <div id="name-box" layout vertical>
+          <paper-shadow z="3" style="border-radius: 3px;" fit></paper-shadow>
+          <div class="title spaced">New Map Image</div>
+          <div id="map-preview"></div>
+          <paper-input id="map-name"
+                       label="New Map Name"
+                       floatingLabel>
+          </paper-input>
+          <div class="spaced" layout horizontal end-justified>
+            <paper-button on-tap="{{nameCancel}}">cancel</paper-button>
+            <paper-button on-tap="{{setNewMap}}">create</paper-button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <style>
+      :host{
+        border-radius: 3px;
+        min-width: 820px;
+        min-height: 660px;
+      }
+      paper-button{
+        background: #3f51b5;
+        color: white;
+      }
+      .title{
+        font-size: 24px;
+      }
+      .spaced{
+        margin: 8px;
+      }
+      .item{
+        position: relative;
+        margin: 8px;
+        width: 240px;
+        height: 240px;
+        background: lightgray;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      .item-label{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 8px;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+      .selected-indicator{
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        color: white;
+        background: #0a0;
+        pointer-events: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+      }
+      #delete-verify-overlay{
+        transition: opacity 0.25s;
+        background: rgba(0, 0, 0, 0.75);
+        opacity: 1;
+        pointer-events: all;
+      }
+      #delete-verify-overlay[hidden]{
+        opacity: 0;
+        pointer-events: none;
+      }
+      #delete-verify-box{
+        position: relative;
+        background: white;
+        padding: 8px;
+        border-radius: 3px;
+      }
+      #list{
+        border: 1px solid lightgray;
+        padding: 8px 0 8px 8px;
+        overflow-x: hidden;
+      }
+      #list::-webkit-scrollbar{
+        width: 10px;
+      }
+      #list::-webkit-scrollbar-thumb{
+        background-color: lightgray;
+        border: 3px solid white;
+      }
+      #main{
+        padding: 8px;
+      }
+      #name-box-overlay{
+        transition: opacity 0.25s;
+        background: rgba(0, 0, 0, 0.75);
+        opacity: 1;
+        pointer-events: all;
+      }
+      #name-box-overlay[hidden]{
+        opacity: 0;
+        pointer-events: none;
+      }
+      #name-box{
+        position: relative;
+        background: white;
+        padding: 8px;
+        border-radius: 3px;
+      }
+      #map-preview{
+        width: 320px;
+        height: 320px;
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: 1px solid gray;
+      }
+    </style>
+  </template>
+  <script src="background-select-dialog.js"></script>
+</polymer-element>

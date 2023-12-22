@@ -1,0 +1,170 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="dialog-base.html">
+<link rel="import"
+      href="/bower_components/paper-dialog/paper-dialog-transition.html">
+<link rel="import"
+      href="/bower_components/paper-shadow/paper-shadow.html">
+<link rel="import"
+      href="/bower_components/paper-button/paper-button.html">
+<link rel="import"
+      href="/bower_components/paper-fab/paper-fab.html">
+<link rel="import"
+      href="/bower_components/core-icon/core-icon.html">
+<link rel="import"
+      href="/bower_components/core-icons/core-icons.html">
+<polymer-element name="intro-dialog"
+                 extends="dialog-base"
+                 attributes="file
+                             session
+                             canvas
+                             about
+                             settings"
+                 transition="paper-dialog-transition-bottom">
+  <template>
+    <paper-shadow z="3" fit></paper-shadow>
+    <div id="title">
+      <object type="image/svg+xml" data="/assets/splash.svg"></object>
+      <paper-shadow z="2"
+                    fit>
+      </paper-shadow>
+    </div>
+    <div id="projects-and-options"
+         flex
+         horizontal layout>
+      <div id="options"
+           flex
+           vertical layout>
+        <span class="header"
+              style="padding: 8px;">Actions</span>
+        <div id="actions-panel"
+             flex
+             vertical layout around-justified>
+          <paper-button on-tap="{{create}}">
+            new project
+          </paper-button>
+          <paper-button on-tap="{{load}}">
+            load project
+          </paper-button>
+          <paper-button on-tap="{{openAbout}}">
+            about
+          </paper-button>
+        </div>
+        <div id="top-gradient"></div>
+        <paper-shadow z="2"
+                      fit>
+        </paper-shadow>
+      </div>
+      <div id="projects"
+           flex
+           vertical layout>
+        <span class="header"
+              style="padding: 8px;">Recent Projects</span>
+        <div id="project-scroll"
+             flex>
+          <div vertical layout>
+            <template repeat="{{recent, idx in file.recents}}">
+              <paper-button id="{{idx}}"
+                            style="margin: 8px 0 8px 10px;"
+                            on-tap="{{loadRecent}}">
+                {{extentionless(recent.name)}}
+              </paper-button>
+            </template>
+          </div>
+        </div>
+        <div id="top-gradient"></div>
+        <div id="bottom-gradient"></div>
+        <paper-shadow z="2"
+                      fit>
+        </paper-shadow>
+      </div>
+    </div>
+    <paper-fab mini
+               style="position: absolute; top: 4px; right: 4px;" 
+               icon="close" 
+               on-tap="{{close}}">
+    </paper-fab>
+    <style>
+      :host{
+        width: 640px;
+        height: 675px;
+        color: white;
+        font-size: 1em;
+        padding: 16px;
+      }
+      paper-button{
+        background: #797;
+        margin: 8px 10px;
+      }
+      paper-shadow{
+        pointer-events: none;
+      }
+      #title{
+        position: relative;
+        background: black;
+        font-size: 2em;
+        text-align: center;
+        margin-bottom: 16px;
+        height: 360px;
+      }
+      .header{
+        text-align: center;
+        font-size: 1.5em;
+      }
+      #actions-panel{
+        padding: 8px 0;
+        position: relative;
+      }
+      #project-scroll{
+        padding: 8px 0;
+        position: relative;
+        overflow-y: scroll;
+      }
+      #project-scroll::-webkit-scrollbar{
+        width: 10px;
+      }
+      #project-scroll::-webkit-scrollbar-thumb{
+        background-color: #baa;
+        border: 3px solid #866;
+      }
+      #bottom-gradient{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 16px;
+        background: linear-gradient(rgba(136, 102, 102, 0), rgba(136, 102, 102, 1));
+        pointer-events: none;
+      }
+      #top-gradient{
+        position: absolute;
+        top: 55px;
+        left: 0;
+        right: 0;
+        height: 8px;
+        background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0));
+        pointer-events: none;
+      }
+      #options{
+        position: relative;
+        background: #668;
+        margin-right: 8px;
+      }
+      #options paper-button{
+        background: #779;
+        border: 1px solid #557;
+      }
+      #projects{
+        position: relative;
+        background: #866;
+        margin-left: 8px;
+      }
+      #projects paper-button{
+        background: #977;
+        border: 1px solid #755;
+      }
+    </style>
+  </template>
+  <script src="intro-dialog.js"></script>
+</polymer-element>

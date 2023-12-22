@@ -1,0 +1,184 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+
+<link rel="import" href="../paper-shadow/paper-shadow.html">
+
+<link rel="import" href="../paper-button/paper-button.html">
+
+</head><body><polymer-element name="config-steps-dialog" extends="paper-dialog" attributes="padConfigDB" backdrop="" autoclosedisabled="">
+
+  <template>
+
+    <paper-shadow z="3" fit=""></paper-shadow>
+
+    <div vertical="" layout="" fit="">
+
+      <div style="overflow: hidden;" vertical="" layout="" flex="">
+
+        <div id="scroll" horizontal="" layout="">
+
+          <template repeat="{{step in configSteps}}">
+
+            <div class="step" vertical="" layout="">
+
+              <div class="title">
+
+                {{step.name}}
+
+              </div>
+
+              <div class="description">
+
+                {{step.description}}
+
+              </div>
+
+            </div>
+
+          </template>
+
+        </div>
+
+      <div id="image" style="background-image: url(assets/controller.svg);" flex="">
+
+        <div id="highlight"></div>
+
+      </div>
+
+      </div>
+
+      <div style="margin: 16px;" horizontal="" layout="">
+
+        <paper-button id="back" disabled="{{step == 0}}" on-tap="{{back}}" flex="" raised="">
+
+          back
+
+        </paper-button>
+
+        <div style="width: 10px;"></div>
+
+        <paper-button id="skip" disabled="{{step == configSteps.length - 1}}" on-tap="{{next}}" flex="" raised="">
+
+          skip
+
+        </paper-button>
+
+      </div>
+
+    </div>
+
+    <style>
+
+      :host{
+
+        font-family: Sans;
+
+        color: #333;
+
+        width: 300px;
+
+        height: 355px;
+
+      }
+
+      paper-shadow{
+
+        pointer-events: none;
+
+      }
+
+      @-webkit-keyframes pulse{
+
+        0% {opacity: 0};
+        100% {opacity: 1};
+
+      }
+
+      #highlight{
+
+        transition: 0.5s;
+
+        -webkit-animation: pulse 0.5s infinite alternate;
+
+        position: absolute;
+
+        -webkit-transform: translate({{configSteps[step].pos.x}}px, -{{configSteps[step].pos.y}}px);
+
+        bottom: -12px;
+
+        left: -12px;
+
+        width: 16px;
+
+        height: 16px;
+
+        border-radius: 300px;
+
+        border: 4px solid orange;
+
+      }
+
+      #scroll{
+
+        transition: 0.5s;
+
+        position: relative;
+
+        left: {{-step * 300}}px;
+
+      }
+
+      .step{
+
+        min-width: 100%;
+
+      }
+
+      .step .title{
+
+        text-align: center;
+
+        font-size: 24px;
+
+        margin: 16px;
+
+      }
+
+      .step .description{
+
+        text-align: center;
+
+        height: 30px;
+
+        margin: 0 16px;
+
+        font-size: 12px;
+
+      }
+
+      #image{
+
+        position: relative;
+
+        width: 256px;
+
+        height: 192px;
+
+        margin: 0 22px;
+
+        background-size: contain;
+
+        background-repeat: no-repeat;
+
+        background-position: center;
+
+      }
+
+    </style>
+
+  </template>
+
+  <script src="config-steps-dialog.js"></script>
+
+</polymer-element></body></html>

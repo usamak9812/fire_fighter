@@ -1,0 +1,83 @@
+{
+  name: "777-CargoxxA3",
+  graphic: "assets/lib/aircraft/777-CargoxxA3/777-CargoxxA3.svg",
+  parts: [
+    {
+      name: "777-CargoxxA3_engine_L_1",
+      offset: {
+        x: 91.91304347826082,
+        y: 89.93236714975848
+      }
+    },
+    {
+      name: "777-CargoxxA3_engine_R_2",
+      offset: {
+        x: 150.97101449275337,
+        y: 90.05314009661839
+      }
+    },
+    {
+      name: "777-CargoxxA3_fuselage_1",
+      offset: {
+        x: 116.65497076023378,
+        y: 23.175438596491187
+      }
+    },
+    {
+      name: "777-CargoxxA3_fuselage_2",
+      offset: {
+        x: 116.65497076023377,
+        y: 72.44444444444439
+      }
+    },
+    {
+      name: "777-CargoxxA3_tail_R",
+      offset: {
+        x: 129.08695652173935,
+        y: 190.391304347826
+      }
+    },
+    {
+      name: "777-CargoxxA3_tail_L",
+      offset: {
+        x: 99.15942028985505,
+        y: 190.149758454106
+      }
+    },
+    {
+      name: "777-CargoxxA3_fuselage_3",
+      offset: {
+        x: 116.95652173913,
+        y: 140.00483091787427
+      }
+    },
+    {
+      name: "777-CargoxxA3_wing_L_1",
+      offset: {
+        x: 79.98067632850244,
+        y: 90.94685990338147
+      }
+    },
+    {
+      name: "777-CargoxxA3_wing_L_2",
+      offset: {
+        x: 21.599033816425106,
+        y: 115.53623188405778
+      }
+    },
+    {
+      name: "777-CargoxxA3_wing_R_1",
+      offset: {
+        x: 136.86473429951724,
+        y: 91.18840579710142
+      }
+    },
+    {
+      name: "777-CargoxxA3_wing_R_2",
+      offset: {
+        x: 174.03864734299506,
+        y: 115.8985507246377
+      }
+    },
+  ]
+}

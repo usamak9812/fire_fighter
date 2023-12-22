@@ -1,0 +1,52 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="/bower_components/paper-shadow/paper-shadow.html">
+<link rel="import"
+      href="/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import"
+      href="/bower_components/core-icons/core-icons.html">
+<polymer-element name="layer-control"
+                 attributes="selected">
+  <template>
+    <paper-shadow z="1" fit></paper-shadow>
+    <div fit
+         vertical layout>
+      <div id="title" flex>
+        Layer: {{selected.object.layer}}
+      </div>
+      <div id="buttons"
+           horizontal layout
+           justified>
+        <paper-icon-button id="up"
+                           icon="expand-less"
+                           on-tap="{{moveLayer}}">
+        </paper-icon-button>
+        <paper-icon-button id="down"
+                           icon="expand-more"
+                           on-tap="{{moveLayer}}">
+        </paper-icon-button>
+      </div>
+    </div>
+    <style>
+      :host{
+        position: absolute;
+        width: 104px;
+        height: 88px;
+        color: #cdc;
+        background-color: #686;
+      }
+      paper-icon-button{
+        border: 1px solid #575;
+        border-radius: 100000000000px;
+      }
+      #title{
+        margin: 8px;
+      }
+      #buttons{
+        margin: 0 8px 8px 8px;
+      }
+    </style>
+  </template>
+  <script src="layer-control.js"></script>
+</polymer-element>

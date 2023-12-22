@@ -1,0 +1,1 @@
+makeCodeJoiningOn('x2028', '&#160;\u2028');

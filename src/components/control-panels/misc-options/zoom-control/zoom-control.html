@@ -1,0 +1,87 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="/bower_components/paper-shadow/paper-shadow.html">
+<link rel="import"
+      href="/bower_components/paper-slider/paper-slider.html">
+<link rel="import"
+      href="/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import"
+      href="/bower_components/core-icons/core-icons.html">
+<polymer-element name="zoom-control"
+                 attributes="view">
+  <template>
+  <div id="zoom-label">
+    Zoom
+  </div>
+  <paper-icon-button id="zoom-out"
+                     on-tap="{{decrease}}"
+                     icon="remove">
+  </paper-icon-button>
+  <paper-icon-button id="zoom-in"
+                     on-tap="{{increase}}"
+                     icon="add">
+  </paper-icon-button>
+  <paper-slider id="zoom-slider"
+                max="8"
+                min="-2"
+                step="0.001"
+                immediateValue="{{view.zoom}}"
+                value="-1"
+                on-wheel="{{wheelMove}}">
+  </paper-slider>
+  <paper-shadow z="1"
+                fit>
+  </paper-shadow>
+    <style>
+      :host{
+        position: absolute;
+        width: 196px;
+        height: 88px;
+        background-color: #686;
+      }
+      paper-shadow{
+        pointer-events: none;
+      }
+      paper-icon-button{
+        position: absolute;
+        top: 8px;
+        color: #cdc;
+        background-color: #686;
+        border: 1px solid #575;
+        border-radius: 100px;
+      }
+      #zoom-in{
+        right: 16px;
+      }
+      #zoom-out{
+        left: 16px;
+      }
+      #zoom-label{
+        position: absolute;
+        top: 12px;
+        left: 8px;
+        right: 8px;
+        color: #cdc;
+        font-size: 24px;
+      }
+      #zoom-slider{
+        -webkit-user-select: none;
+        background-color: #686;
+        position: absolute;
+        width: auto;
+        bottom: 4px;
+        left: 8px;
+        right: 8px;
+      }
+      #zoom-slider::shadow #sliderBar::shadow #activeProgress{
+        background-color: #353;
+      }
+      #zoom-slider::shadow #sliderKnobInner {
+        background-color: #353;
+      }
+    </style>
+  </template>
+  <script src="zoom-control.js">
+  </script>
+</polymer-element>

@@ -1,0 +1,52 @@
+<link rel="import"
+      href="../../../bower_components/polymer/polymer.html">
+<link rel="import"
+      href="../../../bower_components/paper-fab/paper-fab.html">
+<link rel="import"
+      href="../../../bower_components/core-icon/core-icon.html">
+<link rel="import"
+      href="../../../bower_components/core-media-query/core-media-query.html">
+<polymer-element name="color-select"
+                 attributes="inputMode
+                             view
+                             selectedColor">
+  <template>
+    <paper-fab id="toggle"
+              title="Line Color"
+               icon="invert-colors"
+               on-tap="{{toggle}}"
+               mini>
+    </paper-fab>
+    <template repeat="{{colorItem in colorList}}">
+      <paper-fab id="{{colorItem}}"
+                 class="color-option"
+                 style="background-color: {{colorItem}};
+                        color: {{{black:colorItem=='white'||colorItem=='yellow', white:colorItem!='white'&&colorItem!='yellow'}|tokenList}};"
+                 icon="{{{check:selectedColor==colorItem, none:selectedColor!=colorItem}|tokenList}}"
+                 on-tap="{{colorSelect}}"
+                 mini>
+      </paper-fab>
+    </template>
+    <style>
+      :host{
+        position: relative;
+      }
+      #toggle{
+        background-color: {{selectedColor}};
+        color: {{{black:selectedColor=='white'||selectedColor=='yellow', white:selectedColor!='white'&&selectedColor!='yellow'}|tokenList}};
+      }
+      .color-option{
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: 0.25s;
+        opacity: 0;
+        z-index: 3;
+        pointer-events: none;
+        color: white;
+      }
+    </style>
+  </template>
+  <script src="color-select.js">
+  </script>
+ </polymer-element>

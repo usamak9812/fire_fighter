@@ -1,0 +1,308 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="dialog-base.html">
+<link rel="import"
+      href="/bower_components/paper-dialog/paper-dialog-transition.html">
+<link rel="import"
+      href="/bower_components/paper-shadow/paper-shadow.html">
+<link rel="import"
+      href="/bower_components/paper-slider/paper-slider.html">
+<link rel="import"
+      href="/bower_components/paper-button/paper-button.html">
+<link rel="import"
+      href="/bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import"
+      href="/bower_components/paper-dropdown/paper-dropdown.html">
+<link rel="import"
+      href="/bower_components/core-menu/core-menu.html">
+<link rel="import"
+      href="/bower_components/paper-item/paper-item.html">
+<link rel="import"
+      href="/bower_components/core-icons/core-icons.html">
+<link rel="import"
+      href="/bower_components/core-icons/notification-icons.html">
+<link rel="import"
+      href="/bower_components/core-icon/core-icon.html">
+<link rel="import"
+      href="/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import"
+      href="/bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import"
+      href="/bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import"
+      href="/bower_components/color-selector/color-selector-button.html">
+<polymer-element name="settings-dialog"
+                 extends="dialog-base"
+                 attributes="view
+                             driveMode
+                             backgroundSelectDialog
+                             mapImportDialog"
+                 transition="paper-dialog-transition-bottom"
+                 vertical layout>
+  <template>
+    <paper-shadow z="3" fit></paper-shadow>
+    <div horizontal layout>
+      <span id="title">Settings</span>
+      <span flex></span>
+      <paper-button on-tap="{{closePanel}}">
+        finished
+      </paper-button>
+    </div>
+    <div horizontal layout>
+      <div vertical layout around-justified flex>
+        <div>
+          <span class="panel-title">Scale Background to Aircraft</span>
+          <div horizontal layout center>
+            <div style="margin-top: 12px; font-size: 24px;">+</div>
+            <paper-slider id="bg-scale-slider"
+                          max="7.5"
+                          min="0.01"
+                          step="0.001"
+                          value="4"
+                          immediateValue="{{view.globalScale}}"
+                          style="margin-top: 16px;"
+                          on-change="{{scaleChanged}}"
+                          disabled="{{view.background.scaleLock}}">
+            </paper-slider>
+            <div style="margin-top: 12px; font-size: 24px;">-</div>
+          </div>
+        </div>
+        <div horizontal layout style="margin-top: 16px;">
+          <paper-button on-tap="{{openBackgroundSelect}}"
+                        raised
+                        flex>
+            custom background
+          </paper-button>
+          <div>
+            <paper-button on-tap="{{removeImage}}"
+                          disabled='{{view.background.url == ""}}'
+                          raised>
+              remove
+            </paper-button>
+          </div>
+        </div>
+        <div horizontal layout style="margin-top: 8px;">
+          <span class="panel-title">Background Color</span>
+          <div flex></div>
+          <paper-shadow z="1"
+                        style="border-radius: 50px;
+                               width: 40px;
+                               height: 40px;
+                               margin-top: 8px;">
+            <color-selector-button overlayZ="2"
+                                   hex="{{view.background.color}}"
+                                   style="margin: 0 8px 0 0;
+                                          width: 40px;
+                                          height: 40px;">
+            </color-selector-button>
+          </paper-shadow>
+        </div>
+        <div>
+          <span class="panel-title">Drive Mode</span>
+          <div class="spaced" horizontal layout center>
+            <paper-icon-button id="PathFollow"
+                               icon="{{driveMode=='PathFollow' ? 'radio-button-on' : 'radio-button-off'}}"
+                               style="transition: color 0.5s; 
+                                      color: {{driveMode=='PathFollow' ? '#3f51b5' : '#7f91f5'}};"
+                               on-tap="{{changeDriveMode}}">
+            </paper-icon-button>
+            <div>Path Follow</div>
+          </div>
+          <div class="spaced" horizontal layout center>
+            <paper-icon-button id="Immediate"
+                               icon="{{driveMode=='Immediate' ? 'radio-button-on' : 'radio-button-off'}}"
+                               style="transition: color 0.5s; 
+                                      color: {{driveMode=='Immediate' ? '#3f51b5' : '#7f91f5'}};"
+                               on-tap="{{changeDriveMode}}">
+            </paper-icon-button>
+            <div>Immediate</div>
+          </div>
+          <div class="spaced" horizontal layout center>
+            <paper-icon-button id="ToLast"
+                               icon="{{driveMode=='ToLast' ? 'radio-button-on' : 'radio-button-off'}}"
+                               style="transition: color 0.5s; 
+                                      color: {{driveMode=='ToLast' ? '#3f51b5' : '#7f91f5'}};"
+                               on-tap="{{changeDriveMode}}">
+            </paper-icon-button>
+            <div>To Last</div>
+          </div>
+        </div>
+      </div>
+      <div style="width: 16px"></div>
+      <div vertical layout>
+        <span class="panel-title">Scale Reference</span>
+          <div id="map-adjust-panel" on-mousewheel="{{zoom}}">
+            <div id="background"
+                 style="background-image: url({{view.background.url}});
+                        background-color: {{view.background.color}};
+                        background-size: contain;
+                        background-position: center;
+                        background-repeat: no-repeat;"
+                 fit>
+            </div>
+            <div id="plane-ref-box"
+                 on-track="{{pan}}"
+                 fit>
+              <div class="reference-plane"
+                   style="background-image: url(/assets/lib/aircraft/777xxA3/777xxA3.svg);"
+                   fit>
+              </div>
+              <div class="reference-plane"
+                   style="top: 180px;
+                          left: -200px;
+                          background-image: url(/assets/lib/aircraft/C-172xxA3/C-172xxA3.svg);"
+                   fit>
+              </div>
+              <div class="reference-plane"
+                   style="top: 180px;
+                          right: -200px;
+                          background-image: url(/assets/lib/vehicle/Fire_Engine.svg);"
+                   fit>
+              </div>
+              <div id="rotate-widget"
+                   on-track="{{rotate}}"
+                   on-up="{{rotateEnd}}"
+                   on-down="{{rotateStart}}">
+                <core-icon icon="notification:sync"></core-icon>
+              </div>
+              <div id="scale-200">
+                <div class="hash" style="left: 25px;"></div>
+                <div class="hash" style="left: 50px;"></div>
+                <div class="hash" style="left: 75px;"></div>
+                <div class="hash" style="left: 100px;"></div>
+                <div class="hash" style="left: 125px;"></div>
+                <div class="hash" style="left: 150px;"></div>
+                <div class="hash" style="left: 175px;"></div>
+                200' (60.96m)
+              </div>
+              <!--<div id="scale-50">50'</div>-->
+            </div>
+            <div id="lock-button" layout horizontal center>
+              <div>{{getCheckText(view.background.scaleLock)}}</div>
+              <paper-icon-button id="lock-check"
+                                 icon="{{getCheckIconState(view.background.scaleLock)}}"
+                                 on-tap="{{toggleScaleLock}}">
+              </paper-icon-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <style>
+      :host{
+        border-radius: 3px;
+        padding: 16px;
+        width: 880px;
+      }
+      .spaced{
+        margin: 16px 4px;
+      }
+      .hash{
+        position: absolute;
+        top: 2px;
+        width: 1px;
+        background: red;
+        height: 4px;
+      }
+      .dropdown{
+        width: 100%;
+      }
+      .reference-plane{
+        -webkit-transform: scale(1.5);
+        background-position: center;
+        background-repeat: no-repeat;
+        pointer-events: none;
+      }
+      core-icon{
+        pointer-events: none;
+      }
+      paper-item{
+        padding: 0;
+      }
+      paper-button{
+        background: #3f51b5;
+        color: white;
+      }
+      paper-radio-button::shadow #onRadio{
+        background-color: #3f51b5;
+      }
+      paper-radio-button::shadow #ink{
+        color: #3f51b5;
+      }
+      #lock-button{
+        color: red;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+      #plane-ref-box{
+        -webkit-transform: rotate({{rotation}}rad) rotate(90deg);
+      }
+      #rotate-widget{
+        cursor: default;
+        position: absolute;
+        top: 72px;
+        left: 269px;
+        display: inline-block;
+        border-radius: 50%;
+        background: red;
+        padding: 8px;
+        color: white;
+      }
+      #scale-200{
+        -webkit-transform: scale(1.5);
+        position: absolute;
+        bottom: 100px;
+        left: 188px;
+        width: 201px;
+        height: 5px;
+        border-left: 1px solid red;
+        border-right: 1px solid red;
+        border-bottom: 1px solid red;
+        text-shadow: .5px .5px white;
+        line-height: 40px;
+        font-size: 16px;
+      }
+      #scale-50{
+        -webkit-transform: scale(2);
+        position: absolute;
+        bottom: 64px;
+        left: 231px;
+        width: 48px;
+        height: 5px;
+        border-left: 1px solid red;
+        border-right: 1px solid red;
+        border-bottom: 1px solid red;
+        line-height: 24px;
+        font-size: 8px;
+      }
+      #map-adjust-panel{
+        position: relative;
+        overflow: hidden;
+        border: 2px solid gray;
+        min-width: 580px;
+        min-height: 580px;
+        cursor: move;
+      }
+      #background{
+        pointer-events: none;
+        image-rendering: -webkit-optimize-contrast;
+        transform: translate({{position.x * (1 / view.scaledGlobalScale)}}px, {{position.y * (1 / view.scaledGlobalScale)}}px)
+                   scale({{1 / view.scaledGlobalScale * 160}});
+      }
+      #title{
+        display: block;
+        font-weight: 300;
+        font-size: 24px;
+      }
+      .panel-title{
+        margin: 16px 0;
+      }
+      paper-slider{
+        width: 100%;
+      }
+    </style>
+  </template>
+  <script src="settings-dialog.js"></script>
+</polymer-element>

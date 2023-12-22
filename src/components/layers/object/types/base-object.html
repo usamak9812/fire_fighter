@@ -1,0 +1,25 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<polymer-element name="base-object"
+                 attributes="selected
+                             objectData
+                             cursor
+                             view
+                             wind
+                             interactMode
+                             inputMode">
+  <template>
+    <style>
+      :host{
+        position: absolute;
+        top: 0;
+        left: 0;
+        -webkit-transform: translate({{objectData.position.x}}px,
+                                     {{objectData.position.y}}px)
+                           scale({{view.scaledGlobalScale / 32}});
+        pointer-events: none;
+      }
+    </style>
+  </template>
+  <script src="base-object.js"></script>
+</polymer-element>

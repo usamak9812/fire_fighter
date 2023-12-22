@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <title>ARFF Interactive Board</title>
+    <link href="/components/app-main.html"
+          rel="import">
+  </head>
+  <body style="overflow: hidden; -webkit-print-color-adjust:exact;"
+        unresolved>
+    <app-main></app-main>
+    <style>
+      @page{
+        margin: 0;
+        size: landscape;
+      }
+      @font-face{
+        font-family: Roboto;
+        src: url(assets/font/Roboto-Medium.ttf);
+      }
+      @font-face{
+        font-family: Roboto;
+        src: url(assets/font/Roboto-Light.ttf);
+        font-weight: 300;
+      }
+      *{
+        font-family: Roboto;
+        font-size: 20px;
+        font-weight: 300;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        outline: 0px solid transparent;
+        image-rendering: -webkit-optimize-contrast;
+      }
+      body{
+        background: gray;
+        margin: 0;
+      }
+      #dnd{
+        display: none;
+        position: absolute;
+        top: -40px;
+        left: -40px;
+        width: 80px;
+        height: 80px;
+      }
+    </style>
+  </body>
+</html>

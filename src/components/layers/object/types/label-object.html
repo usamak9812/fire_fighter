@@ -1,0 +1,42 @@
+<link rel="import"
+    href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="base-object.html">
+<polymer-element name="label-object"
+                 extends="base-object"
+                 attributes="cursor">
+  <template>
+    <div horizontal layout center center-justified fit>
+      <div id="label"
+           draggable="false"
+           on-click="{{select}}"
+           layout horizontal
+           center-justified>
+        <span style="word-wrap: break-word;"
+              self-center>
+          {{objectData.name}}
+        </span>
+      </div>
+    </div>
+    <style>
+      :host{
+        top: -256px;
+        left: -256px;
+        width: 512px;
+        height: 512px;
+      }
+      #label{
+        -webkit-transform: rotate({{objectData.rotation}}rad) scale({{objectData.scale * 3}});
+        overflow: hidden;
+        padding: 2px 4px;
+        border-radius: 4px;
+        color: {{objectData.hsl.l < 50 ? "white" : "black"}};
+        /*border: 4px solid hsl({{objectData.hsl.h}}, {{objectData.hsl.s}}%, {{objectData.hsl.l * 0.5}}%);*/
+        background-color: hsl({{objectData.hsl.h}}, {{objectData.hsl.s}}%, {{objectData.hsl.l}}%);
+        pointer-events: {{{"none":selected.object==objectData, "all":selected.object!=objectData}|tokenList}};
+      }
+    </style>
+  </template>
+  <script src="label-object.js">
+  </script>
+</polymer-element>

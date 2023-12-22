@@ -1,0 +1,79 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="/bower_components/core-icon/core-icon.html">
+<link rel="import"
+      href="/bower_components/core-icons/core-icons.html">
+<link rel="import"
+      href="/bower_components/core-icons/image-icons.html">
+<link rel="import"
+      href="/bower_components/paper-shadow/paper-shadow.html">
+<link rel="import"
+      href="/bower_components/paper-ripple/paper-ripple.html">
+<link rel="import"
+      href="wind-control/wind-control.html">
+<link rel="import"
+      href="zoom-control/zoom-control.html">
+<link rel="import"
+      href="layer-control/layer-control.html">
+<polymer-element name="misc-options"
+                 attributes="session
+                             panels
+                             interactMode"
+                 on-down="{{tap}}">
+  <template>
+    <div id="hide"
+         on-tap="{{toggleOpen}}">
+      <paper-shadow z="1" fit></paper-shadow>
+      <paper-ripple fit></paper-ripple>
+      <core-icon icon="{{panels.misc.open ? 'expand-more' : 'image:tune'}}">
+      </core-icon>
+    </div>
+    <wind-control z="1"
+                  pause="{{session.view.time.pause}}"
+                  wind="{{session.wind}}"
+                  interactMode="{{interactMode}}">
+    </wind-control>
+    <layer-control selected="{{session.selected}}">
+    </layer-control>
+    <zoom-control view="{{session.view}}">
+    </zoom-control>
+    <style>
+      :host{
+        transition: 0.25s;
+        -webkit-transform: translateY({{panels.misc.open ? "0" : "200px"}});
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 524px;
+        height: 200px;
+      }
+      core-icon{
+        pointer-events: none;
+      }
+      #hide{
+        transition: 0.25s;
+        -webkit-transform: translateX({{panels.misc.open || (panels.fire.open&&!panels.misc.open) ? "-8px" : "-200px"}});
+        position: absolute;
+        top: -40px;
+        left: 200px;
+        background-color: #686;
+        padding: 8px;
+        color: #cdc;
+      }
+      wind-control{
+        bottom: 104px;
+        left: 104px;
+      }
+      layer-control{
+        bottom: 8px;
+        right: 8px;
+      }
+      zoom-control{
+        bottom: 8px;
+        right: 120px;
+      }
+    </style>
+  </template>
+  <script src="misc-options.js"></script>
+</polymer-element>

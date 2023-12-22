@@ -1,0 +1,186 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="gamepad-input.html">
+
+<link rel="import" href="gamepad-visualizer.html">
+
+</head><body><polymer-element name="gamepad-input-demo">
+
+  <template>
+
+    <gamepad-input pads="{{pads}}"></gamepad-input>
+
+    <div style="background-color: gray;" vertical="" layout="" fit="">
+
+      <div horizontal="" layout="">
+
+        <gamepad-visualizer id="0" pad="{{pads[0]}}" number="1">
+        </gamepad-visualizer>
+
+        <gamepad-visualizer id="1" pad="{{pads[1]}}" number="2">
+        </gamepad-visualizer>
+
+      </div>
+
+      <div horizontal="" layout="">
+
+        <gamepad-visualizer id="2" pad="{{pads[2]}}" number="3">
+        </gamepad-visualizer>
+
+        <gamepad-visualizer id="3" pad="{{pads[3]}}" number="4">
+        </gamepad-visualizer>
+
+      </div>
+
+    </div>
+
+    <style>
+
+      .stick-area{
+
+        width: 120px;
+
+        height: 120px;
+
+        border-radius: 30px;
+
+        background-color: green;
+
+      }
+
+      .stick{
+
+        position: absolute;
+
+        top: 30px;
+
+        left: 30px;
+
+        bottom: 30px;
+
+        right: 30px;
+
+        border-radius: 30px;
+
+        background-color: black;
+
+      }
+
+      .trigger-area{
+
+        width: 30px;
+
+        height: 130px;
+
+        background-color: green;
+
+      }
+
+      .trigger{
+
+        position: absolute;
+
+        top: 0;
+
+        left: 0;
+
+        width: 30px;
+
+        height: 30px;
+
+        background-color: black;
+
+      }
+
+      #la{
+
+        position: absolute;
+
+        top: 20px;
+
+        left: 400px;
+
+      }
+
+      #las{
+
+        -webkit-transform: translate({{pads[0].axes.lh * 30}}px,
+                                     {{pads[0].axes.lv * 30}}px);
+
+      }
+
+      #ra{
+
+        position: absolute;
+
+        top: 20px;
+
+        left: 600px;
+
+      }
+
+      #ras{
+
+        -webkit-transform: translate({{pads[0].axes.rh * 30}}px,
+                                     {{pads[0].axes.rv * 30}}px);
+
+      }
+
+      #dp{
+
+        position: absolute;
+
+        top: 200px;
+
+        left: 400px;
+
+      }
+
+      #dps{
+
+        -webkit-transform: translate({{pads[0].axes.dh * 30}}px,
+                                     {{pads[0].axes.dv * 30}}px);
+
+      }
+
+      #lt{
+
+        position: absolute;
+
+        top: 20px;
+
+        left: 350px;
+
+      }
+
+      #lts{
+
+        -webkit-transform: translateY({{pads[0].axes.lt * 100}}px);
+
+      }
+
+      #rt{
+
+        position: absolute;
+
+        top: 20px;
+
+        left: 750px;
+
+      }
+
+      #rts{
+
+        -webkit-transform: translateY({{pads[0].axes.rt * 100}}px);
+
+      }
+
+    </style>
+
+  </template>
+
+  <script src="demo.html.0.js"></script>
+
+</polymer-element>
+
+<gamepad-input-demo></gamepad-input-demo></body></html>

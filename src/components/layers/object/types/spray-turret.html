@@ -1,0 +1,24 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<polymer-element name="spray-turret"
+                 attributes="direction
+                             limits
+                             sprayType
+                             power">
+  <template>
+    <style>
+      :host{
+        transform: rotate(1rad);
+        transform-origin: 4px;
+        position: absolute;
+        top: 126px;
+        left: 80%;
+        width: 64px;
+        height: 8px;
+        background: red;
+      }
+    </style>
+  </template>
+  <script src="spray-turret.js">
+  </script>
+</polymer-element>

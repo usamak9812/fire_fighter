@@ -1,0 +1,18 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="verify-save-dialog.html">
+<polymer-element name="file-operations-controller"
+                 attributes="newObjectTemplate
+                             saveObject
+                             isSaveCurrent
+                             activeFile
+                             recents
+                             maxRecents
+                             allowedExtensions">
+  <template>
+    <verify-save-dialog id="dialog">
+    </verify-save-dialog>
+  </template>
+  <script src="file-operations-controller.js"></script>
+</polymer-element>

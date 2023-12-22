@@ -1,0 +1,65 @@
+<link rel="import"
+      href="/bower_components/polymer/polymer.html">
+<link rel="import"
+      href="base-object.html">
+<polymer-element name="fire-object"
+                 extends="base-object">
+  <template>
+    <div id="smoke-particles"
+         class="{{{'wind':objectData.locked, 'rotation':!objectData.locked}|tokenList}}"
+         fit>
+      <template repeat="{{p in particles}}">
+        <div class="particle"
+             fit
+             style="display: {{{none:p.mode=='off'}|tokenList}};
+                    -webkit-transform: scale({{(1 + (p.pos * 10)) * objectData.scale}})
+                                       translate({{p.rand * p.pos * spread}}px, {{(-p.pos * windSource.speed * 1.75) + (p.rand * p.pos * spread)}}px)
+                                       rotate({{p.rot}}deg);
+                    background-position: {{-32 * p.frame}}px 0;
+                    background-image: url(/assets/anim/fire/anim_{{p.mode}}.png);
+                    opacity: {{objectData.opacity}};
+                    z-index: {{p.frame}};">
+      </template>
+    </div>
+    <div id="selection-area"
+         on-click="{{select}}">
+    </div>
+    <style>
+      :host{
+        top: -16px;
+        left: -16px;
+        width: 32px;
+        height: 32px;
+      }
+      #selection-area{
+        display: {{interactMode ? "none" : "block"}};
+        transform: scale({{objectData.scale * 3}});
+        position: relative;
+        pointer-events: {{selected.object!=objectData && !interactMode ? 'all' : 'none'}};
+        background: red;
+        width: 16px;
+        height: 16px;
+        margin: 8px;
+        border-radius: 50%;
+        opacity: 0.2;
+      }
+      #fire{
+        -webkit-transform: rotate({{randRot}}deg);
+      }
+      #smoke-particles.wind{
+        -webkit-transform: rotate({{wind.direction}}deg);
+      }
+      #smoke-particles.rotation{
+        -webkit-transform: rotate({{objectData.rotation}}rad);
+      }
+      .particle{
+        opacity: 0.9;
+        background-size: 3840px 32px;
+        image-rendering: -webkit-optimize-contrast;
+        pointer-events: none;
+      }
+    </style>
+  </template>
+  <script src="fire-object.js">
+  </script>
+</polymer-element>
