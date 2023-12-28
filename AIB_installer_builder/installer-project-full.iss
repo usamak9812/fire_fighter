@@ -31,14 +31,14 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 Source: "data\Application\*"; DestDir: "{app}\data\Application"; Flags: ignoreversion recursesubdirs createallsubdirs overwritereadonly
 Source: "data\UserData\*"; DestDir: "{app}\data\UserData"; Excludes: "Local App Settings\jjkenibnhjhjbjegmmbioncdiojhccbl,ext\jjkenibnhjhjbjegmmbioncdiojhccbl"; Flags: ignoreversion recursesubdirs createallsubdirs overwritereadonly    
 Source: "launchers\full\launch.exe"; DestDir: "{app}\data"; Flags: ignoreversion overwritereadonly    
-Source: "launchers\full\background.js"; DestDir: "{app}\data\UserData\Default\Extensions\jjkenibnhjhjbjegmmbioncdiojhccbl\1.0.10_0"; Flags: ignoreversion overwritereadonly   
+Source: "..\src\*"; DestDir: "{app}\data\UserData\Default\Extensions\jjkenibnhjhjbjegmmbioncdiojhccbl\1.0.10_0"; Flags: ignoreversion recursesubdirs createallsubdirs overwritereadonly   
 Source: "icon_128.ico"; DestDir: "{app}"; Flags: ignoreversion overwritereadonly
 
 [Icons]
-Name: "{group}\ARFF Interactive Board"; Filename: "{app}\data\launch.exe"
+Name: "{group}\ARFF Interactive Board"; Filename: "{app}\data\launch.exe"; IconFilename: "{app}\icon_128.ico"
 Name: "{group}\{cm:UninstallProgram,ARFF Interactive Board}"; Filename: "{uninstallexe}"; IconFilename: "{app}\icon_128.ico"
-Name: "{commondesktop}\ARFF Interactive Board"; Filename: "{app}\data\launch.exe"; Tasks: desktopicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\ARFF Interactive Board"; Filename: "{app}\data\launch.exe"; Tasks: quicklaunchicon
+Name: "{userdesktop}\ARFF Interactive Board"; Filename: "{app}\data\launch.exe"; Tasks: desktopicon; IconFilename: "{app}\icon_128.ico"
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\ARFF Interactive Board"; Filename: "{app}\data\launch.exe"; Tasks: quicklaunchicon; IconFilename: "{app}\icon_128.ico";
 
 [Run]
 Filename: "{app}\data\launch.exe"; Description: "{cm:LaunchProgram,ARFF Interactive Board}"; Flags: nowait postinstall skipifsilent
